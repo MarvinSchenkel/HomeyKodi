@@ -30,7 +30,7 @@
         "large": "./drivers/kodi/assets/images/large.png",
         "small": "./drivers/kodi/assets/images/small.png"
       },
-      "class": "",      
+      "class": "other",      
       "capabilities": [  ],
       "pair": [
         {
