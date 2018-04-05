@@ -28,10 +28,10 @@ class KodiDevice extends Homey.Device {
 
     onDeleted() {
         this.log('deleted()')
-        this.cleanup();
+        this._cleanup();
     }
 
-    cleanup() {
+    _cleanup() {
         if (this.reconnectTimer) {
             clearTimeout(this.reconnectTimer);
             this.reconnectTimer = null;
@@ -41,7 +41,7 @@ class KodiDevice extends Homey.Device {
             this._kodi.removeAllListeners()
             this._kodi.socket && this._kodi.socket.removeAllListeners();
         }
-        [ '_player', '_library', '_system' ].forEach(k => this[k] && this[k].cleanup());
+        [ '_player', '_library', '_system' ].forEach(k => this[k] && this[k]._cleanup());
     }
 
     async onSettings(oldSettings, newSettings, changedKeys, callback) {
@@ -53,11 +53,11 @@ class KodiDevice extends Homey.Device {
 
                 // We got here so we were able to set up a new connection.
                 // Clean up the old connection.
-                this.cleanup();
+                this._cleanup();
 
                 // Register the new connection.
                 this._kodi = kodi;
-                this.registerNewConnection(newSettings.host, newSettings.tcpport);
+                this._registerNewConnection(newSettings.host, newSettings.tcpport);
             } catch(err) {
                 return callback(err);
             }
@@ -65,11 +65,11 @@ class KodiDevice extends Homey.Device {
         return callback();
     }
 
-    handleDisconnect({ ipAddress, port, err } = {}) {
+    _handleDisconnect({ ipAddress, port, err } = {}) {
         this.log('got disconnected');
         if (this._kodi) {
             this.log('...cleaning up');
-            this.cleanup();
+            this._cleanup();
         }
         if (err) {
             this.error(err)
@@ -89,7 +89,7 @@ class KodiDevice extends Homey.Device {
             this.log('Connected to ', ipAddress);
         } catch(err) {
             this.log('got connect error', err);
-            return this.handleDisconnect({ ipAddress, port, err });
+            return this._handleDisconnect({ ipAddress, port, err });
         }
 
         // Delete the timer after succesful connection.
@@ -100,18 +100,18 @@ class KodiDevice extends Homey.Device {
         }
 
         // Register new connection.
-        this.registerNewConnection(ipAddress, port);
+        this._registerNewConnection(ipAddress, port);
     }
 
-    registerNewConnection(ipAddress, port) {
+    _registerNewConnection(ipAddress, port) {
         // Register event listeners.
         this._kodi.on('close', ()  => {
             this.log('got conn close');
-            this.handleDisconnect({ ipAddress, port });
+            this._handleDisconnect({ ipAddress, port });
         });
         this._kodi.on('error', err => {
             this.log('got conn error', err);
-            this.handleDisconnect({ ipAddress, port, err })
+            this._handleDisconnect({ ipAddress, port, err })
         });
 
         // Register objects and events to interact with kodi
