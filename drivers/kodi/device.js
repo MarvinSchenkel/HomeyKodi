@@ -15,9 +15,9 @@ class KodiDevice extends Homey.Device {
         this.log('init(', this.getData().id, ')')
         let host = this.getSetting('host')
         let tcpPort = this.getSetting('tcpport')
-        
+
         this._connectKodi(host, tcpPort)
-        
+
         // Register capabilities
         this.registerCapabilityListener('volume_set', this._onCapabilityVolumeSet.bind(this))
     }
@@ -28,80 +28,113 @@ class KodiDevice extends Homey.Device {
 
     onDeleted() {
         this.log('deleted()')
-        // Remove listeners
-        if (this.kodi.socket) {
-            this._kodi.socket.removeAllListeners()
-        }
-        this._kodi.removeAllListeners()
-        if(this.reconnectTimer) {
-            clearInterval(this.reconnectTimer)
-        }
+        this._cleanup();
     }
 
-    _connectKodi (ipAddress, port) {
-        this.log('_connectKodi (', ipAddress, ',', port, ')')
-        let device = this
-        KodiWs(ipAddress, port)
-            .then ((kodi) => {          
-                device.log('Connected to ', ipAddress)                          
-                
-                // Delete the timer after succesful connection
-                if(device.reconnectTimer) {                    
-                    clearInterval(device.reconnectTimer)
-                    // Trigger flow
-                    let driver = device.getDriver()
-                    driver._flowTriggerKodiReconnects
-                        .trigger(device, null, null)
-                }
-                
-                // Initialise connection polling
-                let fnReconnect = function(error) {                    
-                    // Check if we are already polling
-                    if(!device.reconnectTimer) {
-                        device.log('Connection lost to ', ipAddress)
-                        device.error(error)
-                        device.setUnavailable()
-                        device.reconnectTimer = 
-                            setTimeout( (ipAddress, port) => {
-                                device._connectKodi(ipAddress, port)
-                            }, RECONNECT_INTERVAL, ipAddress, port) // Start polling
-                    }                    
-                }
+    _cleanup() {
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = null;
+        }
+        if (this._kodi) {
+            // Remove listeners
+            this._kodi.removeAllListeners()
+            this._kodi.socket && this._kodi.socket.removeAllListeners();
+        }
+        [ '_player', '_library', '_system' ].forEach(k => this[k] && this[k]._cleanup());
+    }
 
-                // Register event listeners
-                kodi.on('close', fnReconnect)
-                kodi.on('error', fnReconnect)
+    async onSettings(oldSettings, newSettings, changedKeys, callback) {
+        if (changedKeys.includes('host') || changedKeys.includes('tcpport')) {
+            try {
+                // Try to connect using new settings.
+                let kodi = await KodiWs(newSettings.host, newSettings.tcpport);
+                this.log('Connected to ', newSettings.host);
 
-                // Register objects and events to interact with kodi
-                device._player = new Player(kodi)
-                device._player.on('pause', () => { device._onPause() })
-                device._player.on('stop', () => { device._onStop() })
-                device._player.on('episode_stop', (episode) => { device._onEpisodeStop(episode) })
-                device._player.on('movie_stop', (movie) => { device._onMovieStop(movie) })
-                device._player.on('play', () => { device._onPlay() })
-                device._player.on('resume', () => { device._onResume() })
-                device._player.on('movie_start', (movie) => { device._onMovieStart(movie) })
-                device._player.on('episode_start', (episode) => { device._onEpisodeStart(episode) })
-                device._player.on('song_start', (song) => { device._onSongStart(song) })
+                // We got here so we were able to set up a new connection.
+                // Clean up the old connection.
+                this._cleanup();
 
-                device._library = new Library(kodi)
+                // Register the new connection.
+                this._kodi = kodi;
+                this._registerNewConnection(newSettings.host, newSettings.tcpport);
+            } catch(err) {
+                return callback(err);
+            }
+        }
+        return callback();
+    }
 
-                device._system = new System(kodi)
-                device._system.on('shutdown', () => { device._onShutdown() })
-                device._system.on('hibernate', () => { device._onHibernate() })
-                device._system.on('reboot', () => { device._onReboot() })
-                device._system.on('wake', () => { device._onWake() })
+    _handleDisconnect({ ipAddress, port, err } = {}) {
+        this.log('got disconnected');
+        if (this._kodi) {
+            this.log('...cleaning up');
+            this._cleanup();
+        }
+        if (err) {
+            this.error(err)
+        }
+        this.setUnavailable(err || '')
+        this.reconnectTimer && clearTimeout(this.reconnectTimer);
+        this.reconnectTimer = setTimeout(() => {
+            this._connectKodi(ipAddress, port)
+        }, RECONNECT_INTERVAL);
+    }
 
-                device.setAvailable() // Make available to Homey
-            })
-            .catch((err) => {
-                device.error(err)
-                device.setUnavailable(err)
-                device.reconnectTimer = 
-                    setTimeout( (ipAddress, port) => {
-                        device._connectKodi(ipAddress, port)
-                    }, RECONNECT_INTERVAL, ipAddress, port) // Start polling                
-            })
+    async _connectKodi (ipAddress, port) {
+        this.log('_connectKodi (', ipAddress, ',', port, ')');
+        this._kodi = null;
+        try {
+            this._kodi = await KodiWs(ipAddress, port);
+            this.log('Connected to ', ipAddress);
+        } catch(err) {
+            this.log('got connect error', err);
+            return this._handleDisconnect({ ipAddress, port, err });
+        }
+
+        // Delete the timer after succesful connection.
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            // Trigger flow
+            this.getDriver()._flowTriggerKodiReconnects.trigger(this, null, null);
+        }
+
+        // Register new connection.
+        this._registerNewConnection(ipAddress, port);
+    }
+
+    _registerNewConnection(ipAddress, port) {
+        // Register event listeners.
+        this._kodi.on('close', ()  => {
+            this.log('got conn close');
+            this._handleDisconnect({ ipAddress, port });
+        });
+        this._kodi.on('error', err => {
+            this.log('got conn error', err);
+            this._handleDisconnect({ ipAddress, port, err })
+        });
+
+        // Register objects and events to interact with kodi
+        this._player = new Player(this._kodi)
+        this._player.on('pause', () => { this._onPause() })
+        this._player.on('stop', () => { this._onStop() })
+        this._player.on('episode_stop', (episode) => { this._onEpisodeStop(episode) })
+        this._player.on('movie_stop', (movie) => { this._onMovieStop(movie) })
+        this._player.on('play', () => { this._onPlay() })
+        this._player.on('resume', () => { this._onResume() })
+        this._player.on('movie_start', (movie) => { this._onMovieStart(movie) })
+        this._player.on('episode_start', (episode) => { this._onEpisodeStart(episode) })
+        this._player.on('song_start', (song) => { this._onSongStart(song) })
+
+        this._library = new Library(this._kodi)
+
+        this._system = new System(this._kodi)
+        this._system.on('shutdown', () => { this._onShutdown() })
+        this._system.on('hibernate', () => { this._onHibernate() })
+        this._system.on('reboot', () => { this._onReboot() })
+        this._system.on('wake', () => { this._onWake() })
+
+        this.setAvailable() // Make available to Homey
     }
 
     /************************************
@@ -111,9 +144,9 @@ class KodiDevice extends Homey.Device {
         this.log('playMovie(', movieTitle, ')')
         return this._library.searchMovie(movieTitle)
             .then ( (movie) => {
-                return this._player.playMovie(movie)     
+                return this._player.playMovie(movie)
             })
-    }    
+    }
 
     /************************************
         EPISODES
@@ -174,7 +207,7 @@ class KodiDevice extends Homey.Device {
         this.log('setVolume(', volume, ')')
         return this._player.setVolume(volume)
     }
-    
+
     pauseResume () {
         this.log('playPause()')
         return this._player.pauseResume()
@@ -242,14 +275,14 @@ class KodiDevice extends Homey.Device {
         this.log('_onEpisodeStop(', episode, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiEpisodeStop
-            .trigger(this, episode.getParamFlow(), null)    
+            .trigger(this, episode.getParamFlow(), null)
     }
 
     _onMovieStop (movie) {
         this.log('_onMovieStop(', movie, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiMovieStop
-            .trigger(this, movie.getParamFlow(), null)        
+            .trigger(this, movie.getParamFlow(), null)
     }
 
     _onPlay () {
