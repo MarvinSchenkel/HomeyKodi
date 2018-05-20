@@ -127,12 +127,16 @@ class KodiDevice extends Homey.Device {
         this._player.on('song_start', (song) => { this._onSongStart(song) })
 
         this._library = new Library(this._kodi)
+        this._library.on('audio_scan_finished', () => {this._onAudioScanFinished() })
+        this._library.on('video_scan_finished', () => {this._onVideoScanFinished() })
 
         this._system = new System(this._kodi)
         this._system.on('shutdown', () => { this._onShutdown() })
         this._system.on('hibernate', () => { this._onHibernate() })
         this._system.on('reboot', () => { this._onReboot() })
         this._system.on('wake', () => { this._onWake() })
+        this._system.on('screensaver_on', () => { this._onScreensaverOn() })
+        this._system.on('screensaver_off', () => { this._onScreensaverOff() })        
 
         this.setAvailable() // Make available to Homey
     }
@@ -236,6 +240,19 @@ class KodiDevice extends Homey.Device {
         }
     }
 
+    /***********************************
+        LIBRARY
+    ************************************/
+    scanAudioLibrary () {
+        this.log('scanAudioLibrary()')
+        return this._library.scanAudioLibrary()
+    }
+
+    scanVideoLibrary () {
+        this.log('scanVideoLibrary()')
+        return this._library.scanVideoLibrary()
+    }
+
     /************************************
         SYSTEM
     ************************************/
@@ -252,6 +269,11 @@ class KodiDevice extends Homey.Device {
     shutdown () {
         this.log('shutdown()')
         return this._system.shutdown()
+    }
+
+    sendNotification (message) {
+        this.log('sendNotification()')
+        return this._system.sendNotification(message)
     }
 
     /************************************
@@ -345,6 +367,34 @@ class KodiDevice extends Homey.Device {
         this.log('_onWake()')
         let driver = this.getDriver()
         driver._flowTriggerKodiWake
+            .trigger(this, null, null)
+    }
+
+    _onScreensaverOn () {
+        this.log('_onScreensaverOn')
+        let driver = this.getDriver()
+        driver._flowTriggerKodiScreensaverOn
+            .trigger(this, null, null)
+    }
+
+    _onScreensaverOff () {
+        this.log('_onScreensaverOff')
+        let driver = this.getDriver()
+        driver._flowTriggerKodiScreensaverOff
+            .trigger(this, null, null)
+    }
+
+    _onAudioScanFinished () {
+        this.log('_onAudioScanFinished')
+        let driver = this.getDriver()
+        driver._flowTriggerKodiAudioScanFinished
+            .trigger(this, null, null)
+    }
+
+    _onVideoScanFinished() {
+        this.log('_onVideoScanFinished')
+        let driver = this.getDriver()
+        driver._flowTriggerKodiVideoScanFinished
             .trigger(this, null, null)
     }
 

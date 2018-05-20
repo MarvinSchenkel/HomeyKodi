@@ -49,6 +49,18 @@ class KodiDriver extends Homey.Driver {
 
     this._flowTriggerKodiWake = new Homey.FlowCardTriggerDevice('kodi_wake')
       .register()
+    
+    this._flowTriggerKodiScreensaverOn = new Homey.FlowCardTriggerDevice('kodi_ss_on')
+      .register()
+
+    this._flowTriggerKodiScreensaverOff = new Homey.FlowCardTriggerDevice('kodi_ss_off')
+      .register()
+
+    this._flowTriggerKodiAudioScanFinished = new Homey.FlowCardTriggerDevice('kodi_audio_scan_finished')
+      .register()
+
+    this._flowTriggerKodiVideoScanFinished = new Homey.FlowCardTriggerDevice('kodi_video_scan_finished')
+      .register()
 
     // Register flow conditions
     new Homey.FlowCardCondition('is_playing')
@@ -176,6 +188,28 @@ class KodiDriver extends Homey.Driver {
       .registerRunListener( (args, state) => {
         let device = args.kodi
         return device.setSubtitle(false)
+      })
+
+    new Homey.FlowCardAction('send_notification')
+      .register()
+      .registerRunListener( (args, state) => {
+        let device = args.kodi
+        let message = args.message
+        return device.sendNotification(message)
+      })
+
+    new Homey.FlowCardAction('scan_video_library')
+      .register()
+      .registerRunListener( (args, state) => {
+        let device = args.kodi
+        return device.scanVideoLibrary()
+      })
+
+    new Homey.FlowCardAction('scan_audio_library')
+      .register()
+      .registerRunListener( (args, state) => {
+        let device = args.kodi
+        return device.scanAudioLibrary()
       })
   }
 
