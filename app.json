@@ -8,8 +8,10 @@
     "en": "Control your Kodi device with Homey!",    
     "nl": "Bestuur je Kodi apparaat met Homey!"
   },
-  "version": "1.9.0",
-  "compatibility": ">=0.9 || 1.x",
+  "version": "2.2.0",
+  "athomForumDiscussionId": 842,
+  "sdk": 2,
+  "compatibility": "1.x >=1.5.0",
   "category": [
     "music",
     "video"
@@ -18,138 +20,14 @@
     "name": "Marvin Schenkel",
     "email": "marvinschenkel@gmail.com",
     "website": "https://linkedin.com/in/marvinschenkel"
-  },
-  "speech":[
-    {
-      "id": "kodi_play_movie",
-      "importance": 0.7,
-      "triggers" : {
-        "en" : ["play movie"],
-        "nl" : ["speel film", "speel de film", "start film", "start de film"]
-      }
-    },
-    {
-      "id": "kodi_play_tvshow",
-      "importance": 1,
-      "triggers" : {
-        "en" : ["play tv show"],
-        "nl" : ["speel serie", "speel de serie", "start serie", "start de serie"]
-      }
-    },
-    {
-      "id": "kodi_play_music",
-      "importance": 0.7,
-      "triggers" : {
-        "en" : ["play music"],
-        "nl": ["speel muziek"]
-      }
-    },
-    {
-      "id": "kodi_play_pause",
-      "importance": 0.7,
-      "triggers" : {
-        "en" : ["pause", "resume"],
-        "nl" : ["pauze", "hervat"]
-      }
-    },
-    {
-      "id": "kodi_stop",
-      "importance": 0.7,
-      "triggers" : {
-        "en" : ["stop", "exit", "quit"],
-        "nl": ["stop"]
-      }
-    },
-    {
-      "id": "kodi_next",
-      "importance": 0.7,
-      "triggers": {
-        "en" : ["next track"],
-        "nl": ["volgende"]
-      }
-    },
-    {
-      "id": "kodi_previous",
-      "importance": 0.7,
-      "triggers": {
-        "en" : ["previous track"],
-        "nl": ["vorige"]
-      }
-    },
-    {
-       "id": "kodi_play_latest_episode",
-       "importance": 1,
-       "triggers": {
-         "en": ["play latest episode of", "play the latest episode of", "play latest episode", "play the latest episode"],
-         "nl": ["speel de laatste aflevering", "speel de laatste aflevering van", "speel laatste aflevering", "start de laatste aflevering", "start de laatste aflevering van", "start laatste aflevering"]
-       }
-    },
-    {
-      "id": "kodi_watch_something",
-      "importance": 1,
-      "triggers" : {
-        "en" : ["watch something"],
-        "nl": ["iets kijken"]
-      }
-    },
-    {
-      "id": "kodi_watch_movie",
-      "importance": 1,
-      "triggers" : {
-        "en" : ["watch a movie", "watch movie"],
-        "nl": ["film kijken"]
-      }
-    },
-    {
-      "id": "kodi_hibernate",
-      "importance": 0.5,
-      "triggers" : {
-        "en" : ["hibernate kodi"],
-        "nl": ["slaap kodi"]
-      }
-    },
-    {
-      "id": "kodi_shutdown",
-      "importance": 0.5,
-      "triggers" : {
-        "en" : ["shutdown kodi"],
-        "nl": ["kodi afsluiten"]
-      }
-    },
-    {
-      "id": "kodi_reboot",
-      "importance": 0.5,
-      "triggers" : {
-        "en" : ["reboot kodi"],
-        "nl": ["kodi herstarten"]
-      }
-    },
-    {
-      "id": "kodi_start_addon",
-      "importance": 0.8,
-      "triggers" : {
-        "en" : ["start addon", "start add on", "start program"],
-        "nl": ["start addon", "start add on", "start programma"]
-      }
-    },
-    {
-      "id": "kodi_new_movies",
-      "importance": 0.8,
-      "triggers" : {
-        "en" : ["new movie", "new movies"],
-        "nl": ["nieuwe film", "nieuwe films"]
-      }
-    },
-    {
-      "id": "kodi_new_episodes",
-      "importance": 0.8,
-      "triggers" : {
-        "en" : ["new episode", "new episodes", "new tv show", "new tv shows"],
-        "nl": ["nieuwe aflevering", "nieuwe afleveringen"]
-      }
+  },  
+  "contributing": {
+    "donate": {
+        "paypal": {
+            "username": "MSchenkel91"
+        }
     }
-    
-  ],
+  },
   "drivers": [
     {
       "id": "kodi",
@@ -160,17 +38,66 @@
         "large": "./drivers/kodi/assets/images/large.png",
         "small": "./drivers/kodi/assets/images/small.png"
       },
-      "class": "other",
-      
-      "capabilities": [ ],
+      "class": "other",      
+      "capabilities": [  ],
+      "pair": [
+        {
+            "id": "list_devices",
+            "template": "list_devices", 
+            "navigation": {
+                "next": "add_devices" 
+            }
+        },
+        {
+            "id": "add_devices",
+            "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Kodi settings",
+            "nl": "Kodi instellingen"
+          },
+          "children": [
+            {
+              "id": "host",
+              "type": "text",
+              "value":"0.0.0.0",
+              "label": {
+                "en": "(Local) IP Address of Kodi",
+                "nl": "(Lokale) IP adres van Kodi"
+              }
+            },
+            {
+              "id": "tcpport",
+              "type": "text",
+              "value":"9090",
+              "label": {
+                "en": "TCP Port",
+                "nl": "TCP Poort"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kodi_manual",
+      "name": {
+        "en": "Kodi Manual",
+        "nl": "Kodi Handmatig"
+      },
+      "images": {
+        "large": "./drivers/kodi_manual/assets/images/large.png",
+        "small": "./drivers/kodi_manual/assets/images/small.png"
+      },
+      "class": "other",      
+      "capabilities": [  ],
       "pair": [
         {
           "id": "configure_kodi"
-        }
-        ,
-        {
-          "id": "add_kodis",
-          "template": "add_devices"
         }
       ],
       "settings": [
@@ -220,7 +147,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": { 
               "en": "Which Kodi device", 
               "nl": "Welk Kodi apparaat" 
@@ -251,7 +178,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": { 
               "en": "Which Kodi device", 
               "nl": "Welk Kodi apparaat" 
@@ -282,7 +209,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": { 
               "en": "Which Kodi device", 
               "nl": "Welk Kodi apparaat" 
@@ -324,7 +251,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ],
         "tokens":[
@@ -384,7 +311,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ],
         "tokens":[
@@ -444,7 +371,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -458,7 +385,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -472,7 +399,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -486,7 +413,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -500,7 +427,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -514,7 +441,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -528,7 +455,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -542,7 +469,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -556,7 +483,117 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id":"kodi_ss_on",
+        "title": {
+          "en":"Kodi screensaver on",
+          "nl": "Kodi screensaver aan"
+        },
+        "args": [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id":"kodi_ss_off",
+        "title": {
+          "en":"Kodi screensaver off",
+          "nl": "Kodi screensaver uit"
+        },
+        "args": [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id":"kodi_audio_scan_finished",
+        "title": {
+          "en":"Kodi finished scanning the audio library",
+          "nl": "Kodi is klaar met het scannen van de audio bibliotheek"
+        },
+        "args": [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id":"kodi_video_scan_finished",
+        "title": {
+          "en":"Kodi finished scanning the video library",
+          "nl": "Kodi is klaar met het scannen van de video bibliotheek"
+        },
+        "args": [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "is_playing",
+        "title": {
+          "en": "Kodi is playing...",
+          "nl": "Kodi speelt af..."
+        },
+        "args" : [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
+            "placeholder": { 
+              "en": "Which Kodi device", 
+              "nl": "Welk Kodi apparaat" 
+             }
+          },          
+          {
+            "name": "playing_item",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "movie",
+                "label": {
+                  "en": "a movie",
+                  "nl": "een film"
+                }
+              },
+              {
+                "id": "episode",
+                "label": {
+                  "en": "an episode",
+                  "nl": "een aflevering"
+                }
+              },
+              {
+                "id": "music",
+                "label": {
+                  "en": "music",
+                  "nl": "muziek"
+                }
+              },
+              {
+                "id": "anything",
+                "label": {
+                  "en": "anything",
+                  "nl": "maakt niet uit"
+                }
+              }
+            ]
           }
         ]
       }
@@ -573,7 +610,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           },
           {
             "name": "movie_title",
@@ -588,15 +625,15 @@
       {
         "id": "play_latest_episode_kodi",
         "title": {
-          "en" : "Play the latest episode of a series on Kodi",
-          "nl":"Speel de laatste aflevering van een serie af op Kodi"
+          "en" : "Play the latest unwatched episode of a series on Kodi",
+          "nl":"Speel de laatste niet afgespeelde aflevering van een serie af op Kodi"
         },
         "fluidArgs": true,
         "args":[
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           },
           {
             "name": "series_title",
@@ -604,6 +641,29 @@
             "placeholder" : {
               "en" : "Type a series title that's in your library",
               "nl": "Voer een serie uit je bibliotheek in"
+            }
+          }
+        ]
+      },
+      {
+        "id": "start_addon_kodi",
+        "title": {
+          "en" : "Start an addon Kodi",
+          "nl":"Start een addon op Kodi"
+        },
+        "fluidArgs": true,
+        "args":[
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          },
+          {
+            "name": "addon_name",
+            "type": "text",
+            "placeholder" : {
+              "en" : "Type an addon name that's in your library",
+              "nl": "Voer een naam van een addon uit je bibliotheek in"
             }
           }
         ]
@@ -619,7 +679,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           },
           {
             "name": "artist",
@@ -628,6 +688,36 @@
               "en" : "Type an artist in your library",
               "nl": "Voer een artiest uit je bibliotheek in"
             }
+          }
+        ]
+      },
+      {
+        "id": "next_track",
+        "title": {
+          "en" : "Next",
+          "nl":"Volgende"
+        },
+        "fluidArgs": true,
+        "args":[
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id": "previous_track",
+        "title": {
+          "en" : "Previous",
+          "nl":"Vorige"
+        },
+        "fluidArgs": true,
+        "args":[
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -642,7 +732,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           },
           {
             "name": "volume",
@@ -667,7 +757,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -682,7 +772,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -697,7 +787,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -712,7 +802,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -727,7 +817,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -742,7 +832,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -757,7 +847,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -772,7 +862,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -787,7 +877,7 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       },
@@ -802,7 +892,55 @@
           {
             "name": "kodi",
             "type": "device",
-            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi"
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id": "send_notification",
+        "title": {
+          "en": "Send a notification",
+          "nl": "Stuur een notificatie"
+        },
+        "fluidArgs": true,
+        "args": [{
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          },
+          {
+            "name": "message",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "scan_video_library",
+        "title": {
+          "en" : "Scan the video library for new content",
+          "nl" : "Scan de video bibliotheek voor nieuwe content"
+        },
+        "fluidArgs": true,
+        "args":[
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id": "scan_audio_library",
+        "title": {
+          "en" : "Scan the audio library for new content",
+          "nl" : "Scan de audio bibliotheek voor nieuwe content"
+        },
+        "fluidArgs": true,
+        "args":[
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
           }
         ]
       }

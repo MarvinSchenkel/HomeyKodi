@@ -46,7 +46,7 @@
 		"authorization": {
 			"configure": "Configure Kodi",
 			"start_configuration":"Configure!",
-			"configuration_explanation": "Add your Kodi connection details to connect! <br /> These can be found under System > System info. <br />In System/Settings/Network/Services activate 'Allow programs on other systems to control Kodi'<br />Don't forget to reboot Kodi after this option has been enabled. Make sure your HTTP port is not configured to be 9090!"
+			"configuration_explanation": "Add your Kodi connection details to connect! <br /> These can be found under System > System info. <br />In Settings / Services activate 'Allow programs on other systems to control Kodi'<br />Don't forget to reboot Kodi after this option has been enabled. Make sure your HTTP port is not configured to be 9090!"
 		},
     "configuration": {
        "name": "Name",

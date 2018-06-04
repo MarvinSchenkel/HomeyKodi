@@ -16,7 +16,7 @@
 		"found_following_movies": "De volgende films zijn aan je bibliotheek toegevoegd in de afgelopen __days_since__ dagen",
 		"no_new_episodes_in_library": "Nee, er zijn geen nieuwe afleveringen in je bibliotheek",		
 		"found_following_episodes": "De volgende afleveringen zijn aan je bibliotheek toegevoegd in de afgelopen __days_since__ dagen",
-		"found_episode": "__showtitle__, Seizoen __season__ aflvering __episode__. __episode_title__",
+		"found_episode": "__showtitle__, Seizoen __season__ aflevering __episode__. __episode_title__",
     "something_went_wrong": "Oeps! Er ging iets fout"
 	}
 	,
