@@ -20,6 +20,10 @@ class KodiDevice extends Homey.Device {
 
         // Register capabilities
         this.registerCapabilityListener('volume_set', this._onCapabilityVolumeSet.bind(this))
+        this.registerCapabilityListener('volume_mute', this._onCapabilityVolumeMute.bind(this))
+        this.registerCapabilityListener('speaker_prev', this._onCapabilitySpeakerPrev.bind(this))
+        this.registerCapabilityListener('speaker_next', this._onCapabilitySpeakerNext.bind(this))
+        this.registerCapabilityListener('speaker_playing', this._onCapabilitySpeakerPlaying.bind(this))
     }
 
     onAdded() {
@@ -402,8 +406,24 @@ class KodiDevice extends Homey.Device {
         CAPABILITIES
     ************************************/
     _onCapabilityVolumeSet (value, opts) {
-        this.log('_onCapabilityVolumeSet(', value, ',', opts)
+        this.log('_onCapabilityVolumeSet(', value, ',', opts, ')')
     }
+
+    _onCapabilitySpeakerPlaying(value, opts) {
+        this.log('_onCapabilitySpeakerPlaying(', value, ',', opts, ')')
+    }
+
+    _onCapabilityVolumeMute(value, opts) {
+        this.log('_onCapabilityVolumeMute(', value, ',', opts, ')')
+    }
+
+    _onCapabilitySpeakerPrev(value, opts) {
+        this.log('_onCapabilitySpeakerPrev(', value, ',', opts, ')')
+    }
+
+    _onCapabilitySpeakerNext(value, opts) {
+        this.log('_onCapabilitySpeakerNext(', value, ',', opts, ')')
+    } 
 }
 
 module.exports = KodiDevice

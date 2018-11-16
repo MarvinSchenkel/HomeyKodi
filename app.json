@@ -12,7 +12,7 @@
   "brandColor": "#12B2E7",
   "athomForumDiscussionId": 842,
   "sdk": 2,
-  "compatibility": "1.x >=1.5.0",
+  "compatibility": ">=1.5.0",
   "category": [
     "music",
     "video"
@@ -39,8 +39,14 @@
         "large": "./drivers/kodi/assets/images/large.png",
         "small": "./drivers/kodi/assets/images/small.png"
       },
-      "class": "other",      
-      "capabilities": [  ],
+      "class": "speaker",
+      "capabilities": [
+				"volume_set",
+				"speaker_playing",
+				"speaker_prev",
+				"speaker_next",
+				"volume_mute"
+			],
       "pair": [
         {
             "id": "list_devices",
@@ -73,8 +79,8 @@
             },
             {
               "id": "tcpport",
-              "type": "text",
-              "value":"9090",
+              "type": "number",
+              "value": 9090,
               "label": {
                 "en": "TCP Port",
                 "nl": "TCP Poort"
@@ -94,8 +100,14 @@
         "large": "./drivers/kodi_manual/assets/images/large.png",
         "small": "./drivers/kodi_manual/assets/images/small.png"
       },
-      "class": "other",      
-      "capabilities": [  ],
+      "class": "speaker",      
+      "capabilities": [
+				"volume_set",
+				"speaker_playing",
+				"speaker_prev",
+				"speaker_next",
+				"volume_mute"
+			],
       "pair": [
         {
           "id": "configure_kodi"
@@ -120,8 +132,8 @@
             },
             {
               "id": "tcpport",
-              "type": "text",
-              "value":"9090",
+              "type": "number",
+              "value": 9090,
               "label": {
                 "en": "TCP Port",
                 "nl": "TCP Poort"
