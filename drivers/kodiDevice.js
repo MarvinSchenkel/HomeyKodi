@@ -24,9 +24,6 @@ class KodiDevice extends Homey.Device {
         this.registerCapabilityListener('speaker_prev', this._onCapabilitySpeakerPrev.bind(this))
         this.registerCapabilityListener('speaker_next', this._onCapabilitySpeakerNext.bind(this))
         this.registerCapabilityListener('speaker_playing', this._onCapabilitySpeakerPlaying.bind(this))
-        this.registerCapabilityListener('speaker_track', this._onCapabilitySpeakerTrack.bind(this))
-
-
     }
 
     onAdded() {
@@ -153,10 +150,15 @@ class KodiDevice extends Homey.Device {
     ************************************/
     playMovie(movieTitle) {
         this.log('playMovie(', movieTitle, ')')
-        return this._library.searchMovie(movieTitle)
-            .then((movie) => {
-                return this._player.playMovie(movie)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchMovie(movieTitle)
+                .then((movie) => {
+                    return this._player.playMovie(movie)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+
     }
 
     /************************************
@@ -164,25 +166,37 @@ class KodiDevice extends Homey.Device {
     ************************************/
     playLatestUnwatchedEpisode(showTitle) {
         this.log('playLatestUnwatchedEpisode(', showTitle, ')')
-        return this._library.getLatestUnwatchedEpisode(showTitle)
-            .then((episode) => {
-                return this._player.playEpisode(episode)
-            })
+        if (this.getAvailable()) {
+            return this._library.getLatestUnwatchedEpisode(showTitle)
+                .then((episode) => {
+                    return this._player.playEpisode(episode)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
     /************************************
         MUSIC
     ************************************/
     playMusic(searchType, searchQuery, shuffle = true) {
         this.log('playMusic(', searchType, ',', searchQuery, ')')
-        return this._library.searchMusic(searchType, searchQuery)
-            .then((songs) => {
-                return this._player.playMusic(songs, shuffle)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchMusic(searchType, searchQuery)
+                .then((songs) => {
+                    return this._player.playMusic(songs, shuffle)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     setPartyMode() {
         this.log('setPartyMode()')
-        return this._player.setPartyMode()
+        if (this.getAvailable()) {
+            return this._player.setPartyMode()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
@@ -190,10 +204,14 @@ class KodiDevice extends Homey.Device {
     ************************************/
     startAddon(addonName) {
         this.log('startAddon (', addonName, ')')
-        return this._library.searchAddon(addonName)
-            .then((addon) => {
-                return this._player.startAddon(addon)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchAddon(addonName)
+                .then((addon) => {
+                    return this._player.startAddon(addon)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /***********************************
@@ -201,49 +219,77 @@ class KodiDevice extends Homey.Device {
     ************************************/
     nextOrPrevious(nextOrPrevious) {
         this.log('previousOrNext(', nextOrPrevious, ')')
-        return this._player.nextOrPrevious(nextOrPrevious)
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious(nextOrPrevious)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     setMute(onOff) {
         this.log('setMute(', onOff, ')')
-        return this._player.setMute(onOff)
+        if (this.getAvailable()) {
+            return this._player.setMute(onOff)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     setSubtitle(onOff) {
         this.log('setSubtitle(', onOff, ')')
-        return this._player.setSubtitle(onOff)
+        if (this.getAvailable()) {
+            return this._player.setSubtitle(onOff)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     setVolume(volume) {
         this.log('setVolume(', volume, ')')
-        return this._player.setVolume(volume)
+        if (this.getAvailable()) {
+            return this._player.setVolume(volume)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     pauseResume() {
         this.log('playPause()')
-        return this._player.pauseResume()
+        if (this.getAvailable()) {
+            return this._player.pauseResume()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     stop() {
         this.log('stop()')
-        return this._player.stop()
+        if (this.getAvailable()) {
+            return this._player.stop()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     isPlaying(playingFilter) {
         this.log('isPlaying(', playingFilter, ')')
-        this.log('playerstate', this._player.getState())
-        switch (playingFilter) {
-            case 'movie':
-                return this._player.getState() === 'playing_movie'
+        if (this.getAvailable()) {
+            this.log('playerstate', this._player.getState())
+            switch (playingFilter) {
+                case 'movie':
+                    return this._player.getState() === 'playing_movie'
 
-            case 'episode':
-                return this._player.getState() === 'playing_episode'
+                case 'episode':
+                    return this._player.getState() === 'playing_episode'
 
-            case 'music':
-                return this._player.getState() === 'playing_music'
+                case 'music':
+                    return this._player.getState() === 'playing_music'
 
-            case 'anything':
-                return (this._player.getState() !== 'paused' && this._player.getState() !== 'stopped')
+                case 'anything':
+                    return (this._player.getState() !== 'paused' && this._player.getState() !== 'stopped')
+            }
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
         }
     }
 
@@ -252,12 +298,20 @@ class KodiDevice extends Homey.Device {
     ************************************/
     scanAudioLibrary() {
         this.log('scanAudioLibrary()')
-        return this._library.scanAudioLibrary()
+        if (this.getAvailable()) {
+            return this._library.scanAudioLibrary()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     scanVideoLibrary() {
         this.log('scanVideoLibrary()')
-        return this._library.scanVideoLibrary()
+        if (this.getAvailable()) {
+            return this._library.scanVideoLibrary()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
@@ -265,22 +319,38 @@ class KodiDevice extends Homey.Device {
     ************************************/
     reboot() {
         this.log('reboot()')
-        return this._system.reboot()
+        if (this.getAvailable()) {
+            return this._system.reboot()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     hibernate() {
         this.log('hibernate()')
-        return this._system.hibernate()
+        if (this.getAvailable()) {
+            return this._system.hibernate()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     shutdown() {
         this.log('shutdown()')
-        return this._system.shutdown()
+        if (this.getAvailable()) {
+            return this._system.shutdown()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     sendNotification(message) {
         this.log('sendNotification()')
-        return this._system.sendNotification(message)
+        if (this.getAvailable()) {
+            return this._system.sendNotification(message)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
@@ -303,12 +373,18 @@ class KodiDevice extends Homey.Device {
 
         this.setCapabilityValue('speaker_playing', false)
         this.setCapabilityValue('speaker_track', null)
+        this.setCapabilityValue('speaker_artist', null)
         if (this.artworkImage) {
+            console.log('before unreg')
             this.artworkImage.unregister()
                 .then(() => {
                     console.log('unregistered')
                 })
+                .catch((e) => {
+                    console.log('error', e)
+                })
         }
+
     }
 
     _onEpisodeStop(episode) {
@@ -362,7 +438,6 @@ class KodiDevice extends Homey.Device {
         this.setCapabilityValue('speaker_artist', episode.getFullEpisodeName())
         this.setCapabilityValue('speaker_track', episode.showTitle)
         this.setImageByUrl(episode.artUrl)
-        console.log('after')
     }
 
     _onSongStart(song) {
@@ -433,38 +508,55 @@ class KodiDevice extends Homey.Device {
     ************************************/
     _onCapabilityVolumeSet(value, opts) {
         this.log('_onCapabilityVolumeSet(', value, ',', opts, ')')
-        // Homey reports between 0-1, Kodi expects between 0-100, rouded integers
-        let volume = parseInt(value * 100)
-        return this._player.setVolume(volume)
+        if (this.getAvailable()) {
+            // Homey reports between 0-1, Kodi expects between 0-100, rouded integers
+            let volume = parseInt(value * 100)
+            return this._player.setVolume(volume)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     _onCapabilitySpeakerPlaying(value, opts) {
         this.log('_onCapabilitySpeakerPlaying(', value, ',', opts, ')')
-        return this._player.pauseResume()
+        if (this.getAvailable()) {
+            return this._player.pauseResume()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     _onCapabilityVolumeMute(value, opts) {
         this.log('_onCapabilityVolumeMute(', value, ',', opts, ')')
-        return this._player.setMute(value)
+        if (this.getAvailable()) {
+            return this._player.setMute(value)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     _onCapabilitySpeakerPrev(value, opts) {
         this.log('_onCapabilitySpeakerPrev(', value, ',', opts, ')')
-        return this._player.nextOrPrevious('previous')
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious('previous')
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     _onCapabilitySpeakerNext(value, opts) {
         this.log('_onCapabilitySpeakerNext(', value, ',', opts, ')')
-        return this._player.nextOrPrevious('next')
-    }
-
-    _onCapabilitySpeakerTrack(value, opts) {
-        this.log('_onCapabilitySpeakerTrack(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious('next')
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     // Helper
     setImageByUrl(url) {
-        if (url.startsWith('https')) {
+        console.log(url)
+        if (url.startsWith('https') || url === null) {
             if (!this.artworkImage) {
                 this.artworkImage = new Homey.Image('jpg')
                 this.artworkImage.setUrl(url)

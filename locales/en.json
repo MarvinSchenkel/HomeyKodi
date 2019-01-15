@@ -1,69 +1,67 @@
 {
-	"talkback":{
-		"movie_not_found":"I couldn't find the movie",
-		"device_not_found":"I couldn't find the device",
-    "artist_not_found":"I couldn't find the artist",
-    "album_not_found":"I couldn't find the album",
-		"not_implemented":"I don't know how to do this yet",
-    "series_not_found":"I couldn't find the tv show you were looking for",
-    "no_latest_episode_found":"You have already seen every episode of this tv show!",
-    "no_movies_in_library": "There are no movies in your library, please add them first.",
-    "no_tvshows_in_library": "There are no TV shows in your library, please add them first.",
-    "no_music_in_library": "There is no music in your library, please add it first.",
+	"talkback": {
+		"movie_not_found": "I couldn't find the movie",
+		"device_not_found": "I couldn't find the device",
+		"artist_not_found": "I couldn't find the artist",
+		"album_not_found": "I couldn't find the album",
+		"not_implemented": "I don't know how to do this yet",
+		"series_not_found": "I couldn't find the tv show you were looking for",
+		"no_latest_episode_found": "You have already seen every episode of this tv show!",
+		"no_movies_in_library": "There are no movies in your library, please add them first.",
+		"no_tvshows_in_library": "There are no TV shows in your library, please add them first.",
+		"no_music_in_library": "There is no music in your library, please add it first.",
 		"no_addons_installed": "There are no installed addons",
 		"addon_not_found": "I couldn't find the addon.",
-		"no_new_movies_in_library": "Nope, there are no new movies in your library",		
+		"no_new_movies_in_library": "Nope, there are no new movies in your library",
 		"found_following_movies": "The following movies have been added to your library in the past __days_since__ days",
-		"no_new_episodes_in_library": "Nope, there are no new episodes in your library",		
+		"no_new_episodes_in_library": "Nope, there are no new episodes in your library",
 		"found_following_episodes": "The following episodes have been added to your library in the past __days_since__ days",
 		"found_episode": "__showtitle__, Season __season__ episode __episode__. __episode_title__",
-    "something_went_wrong": "Oops! Something went wrong"
-	}
-	,
-	"question":{
-		"what_movie":"What movie do you want to watch?",
-		"what_serie":"What tv show do you want to watch?",
-		"which_season":"Which season do you want to watch?",
-		"which_episode":"Which episode do you want to watch?",
-		"what_media":"What do you want to watch? A movie or a tv show?",
+		"something_went_wrong": "Oops! Something went wrong",
+		"kodi_offline": "Could not connect to kodi, perhaps it is offline?"
+	},
+	"question": {
+		"what_movie": "What movie do you want to watch?",
+		"what_serie": "What tv show do you want to watch?",
+		"which_season": "Which season do you want to watch?",
+		"which_episode": "Which episode do you want to watch?",
+		"what_media": "What do you want to watch? A movie or a tv show?",
 		"latest_episode_retry": "Let's try again. Of what tv show do you want to watch the latest episode?",
 		"confirm_hibernate": "Are you sure you want to hibernate Kodi?",
 		"confirm_reboot": "Are you sure you want to reboot Kodi?",
 		"confirm_shutdown": "Are you sure you want to shutdown Kodi?"
-	}
-	,
+	},
 	"speech": {
 		"play": "play",
-		"movie":"movie",
-		"tv_show":"tv show",
-		"on kodi":"on kodi",
-    "artist": "artist",
-    "by": "by",
-    "on":"on"
-	}
-	,
+		"movie": "movie",
+		"tv_show": "tv show",
+		"on kodi": "on kodi",
+		"artist": "artist",
+		"by": "by",
+		"on": "on"
+	},
 	"pair": {
 		"authorization": {
 			"configure": "Configure Kodi",
-			"start_configuration":"Configure!",
+			"start_configuration": "Configure!",
 			"configuration_explanation": "Add your Kodi connection details to connect! <br /> These can be found under System > System info. <br />In Settings / Services activate 'Allow programs on other systems to control Kodi'<br />Don't forget to reboot Kodi after this option has been enabled. Make sure your HTTP port is not configured to be 9090!"
 		},
-    "configuration": {
-       "name": "Name",
-       "ip_address": "IP Address",       
-       "tcpPort": "TCP Port (Default 9090)"       
-    },
-		"feedback":{
+		"configuration": {
+			"name": "Name",
+			"ip_address": "IP Address",
+			"tcpPort": "TCP Port (Default 9090)"
+		},
+		"feedback": {
 			"could_not_connect": "Could not connect to your Kodi! Please verify your details.",
 			"succesfully_connected": "Connection succesful!",
 			"device_already_exists": "This device has already been added."
 		}
-	 },
-	 "settings":{
-		 "title": "Kodi settings",
-		 "application_settings":"Application settings",
-		 "days_since_new_movies_episode": "Number of days Kodi looks back for new movies / episode when asked about new movies",
-		 "loglegend":"Logs",
-		 "log_intro": "This page shows the last 50 log items logged by the Kodi app. If you have any issues with the app, this logging information will provide you some guidance to help you solve the problem."
-	 }
+	},
+	"settings": {
+		"title": "Kodi settings",
+		"application_settings": "Application settings",
+		"days_since_new_movies_episode": "Number of days Kodi looks back for new movies / episode when asked about new movies",
+		"loglegend": "Logs",
+		"log_intro": "This page shows the last 50 log items logged by the Kodi app. If you have any issues with the app, this logging information will provide you some guidance to help you solve the problem."
+	}
 }
