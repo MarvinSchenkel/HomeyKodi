@@ -24,6 +24,15 @@ class KodiDevice extends Homey.Device {
         this.registerCapabilityListener('speaker_prev', this._onCapabilitySpeakerPrev.bind(this))
         this.registerCapabilityListener('speaker_next', this._onCapabilitySpeakerNext.bind(this))
         this.registerCapabilityListener('speaker_playing', this._onCapabilitySpeakerPlaying.bind(this))
+
+        // Create artwork image
+        this.artworkImage = new Homey.Image('jpg')
+        this.artworkImage.setUrl(null)
+        this.artworkImage.register()
+            .then(() => {
+                this.setAlbumArtImage(this.artworkImage)
+            })
+            .catch(this.error)
     }
 
     onAdded() {
@@ -374,17 +383,7 @@ class KodiDevice extends Homey.Device {
         this.setCapabilityValue('speaker_playing', false)
         this.setCapabilityValue('speaker_track', null)
         this.setCapabilityValue('speaker_artist', null)
-        if (this.artworkImage) {
-            console.log('before unreg')
-            this.artworkImage.unregister()
-                .then(() => {
-                    console.log('unregistered')
-                })
-                .catch((e) => {
-                    console.log('error', e)
-                })
-        }
-
+        this.setImageByUrl(null)
     }
 
     _onEpisodeStop(episode) {
@@ -555,21 +554,9 @@ class KodiDevice extends Homey.Device {
 
     // Helper
     setImageByUrl(url) {
-        console.log(url)
-        if (url.startsWith('https') || url === null) {
-            if (!this.artworkImage) {
-                this.artworkImage = new Homey.Image('jpg')
-                this.artworkImage.setUrl(url)
-                this.artworkImage.register()
-                    .then(() => {
-                        this.setAlbumArtImage(this.artworkImage)
-                    })
-                    .catch((err) => { console.log('reg error', err) })
-            } else {
-                this.artworkImage.setUrl(url)
-                this.artworkImage.update()
-            }
-        }
+        this.log('setImageByUrl(', url, ')')
+        this.artworkImage.setUrl(url)
+        this.artworkImage.update()
     }
 }
 
