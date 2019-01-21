@@ -20,6 +20,19 @@ class KodiDevice extends Homey.Device {
 
         // Register capabilities
         this.registerCapabilityListener('volume_set', this._onCapabilityVolumeSet.bind(this))
+        this.registerCapabilityListener('volume_mute', this._onCapabilityVolumeMute.bind(this))
+        this.registerCapabilityListener('speaker_prev', this._onCapabilitySpeakerPrev.bind(this))
+        this.registerCapabilityListener('speaker_next', this._onCapabilitySpeakerNext.bind(this))
+        this.registerCapabilityListener('speaker_playing', this._onCapabilitySpeakerPlaying.bind(this))
+
+        // Create artwork image
+        this.artworkImage = new Homey.Image('jpg')
+        this.artworkImage.setUrl(null)
+        this.artworkImage.register()
+            .then(() => {
+                this.setAlbumArtImage(this.artworkImage)
+            })
+            .catch(this.error)
     }
 
     onAdded() {
@@ -41,7 +54,7 @@ class KodiDevice extends Homey.Device {
             this._kodi.removeAllListeners()
             this._kodi.socket && this._kodi.socket.removeAllListeners()
         }
-        [ '_player', '_library', '_system' ].forEach(k => this[k] && this[k]._cleanup())
+        ['_player', '_library', '_system'].forEach(k => this[k] && this[k]._cleanup())
     }
 
     async onSettings(oldSettings, newSettings, changedKeys, callback) {
@@ -58,7 +71,7 @@ class KodiDevice extends Homey.Device {
                 // Register the new connection.
                 this._kodi = kodi
                 this._registerNewConnection(newSettings.host, newSettings.tcpport)
-            } catch(err) {
+            } catch (err) {
                 return callback(err)
             }
         }
@@ -81,13 +94,13 @@ class KodiDevice extends Homey.Device {
         }, RECONNECT_INTERVAL)
     }
 
-    async _connectKodi (ipAddress, port) {
+    async _connectKodi(ipAddress, port) {
         this.log('_connectKodi (', ipAddress, ',', port, ')')
         this._kodi = null;
         try {
             this._kodi = await KodiWs(ipAddress, port)
             this.log('Connected to ', ipAddress)
-        } catch(err) {
+        } catch (err) {
             this.log('got connect error', err)
             return this._handleDisconnect({ ipAddress, port, err })
         }
@@ -105,7 +118,7 @@ class KodiDevice extends Homey.Device {
 
     _registerNewConnection(ipAddress, port) {
         // Register event listeners.
-        this._kodi.on('close', ()  => {
+        this._kodi.on('close', () => {
             this.log('got conn close')
             this._handleDisconnect({ ipAddress, port })
         });
@@ -127,8 +140,8 @@ class KodiDevice extends Homey.Device {
         this._player.on('song_start', (song) => { this._onSongStart(song) })
 
         this._library = new Library(this._kodi)
-        this._library.on('audio_scan_finished', () => {this._onAudioScanFinished() })
-        this._library.on('video_scan_finished', () => {this._onVideoScanFinished() })
+        this._library.on('audio_scan_finished', () => { this._onAudioScanFinished() })
+        this._library.on('video_scan_finished', () => { this._onVideoScanFinished() })
 
         this._system = new System(this._kodi)
         this._system.on('shutdown', () => { this._onShutdown() })
@@ -136,7 +149,7 @@ class KodiDevice extends Homey.Device {
         this._system.on('reboot', () => { this._onReboot() })
         this._system.on('wake', () => { this._onWake() })
         this._system.on('screensaver_on', () => { this._onScreensaverOn() })
-        this._system.on('screensaver_off', () => { this._onScreensaverOff() })        
+        this._system.on('screensaver_off', () => { this._onScreensaverOff() })
 
         this.setAvailable() // Make available to Homey
     }
@@ -144,247 +157,338 @@ class KodiDevice extends Homey.Device {
     /************************************
         MOVIE
     ************************************/
-    playMovie (movieTitle) {
+    playMovie(movieTitle) {
         this.log('playMovie(', movieTitle, ')')
-        return this._library.searchMovie(movieTitle)
-            .then ( (movie) => {
-                return this._player.playMovie(movie)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchMovie(movieTitle)
+                .then((movie) => {
+                    return this._player.playMovie(movie)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+
     }
 
     /************************************
         EPISODES
     ************************************/
-    playLatestUnwatchedEpisode (showTitle) {
+    playLatestUnwatchedEpisode(showTitle) {
         this.log('playLatestUnwatchedEpisode(', showTitle, ')')
-        return this._library.getLatestUnwatchedEpisode(showTitle)
-            .then( (episode) => {
-                return this._player.playEpisode(episode)
-            })
+        if (this.getAvailable()) {
+            return this._library.getLatestUnwatchedEpisode(showTitle)
+                .then((episode) => {
+                    return this._player.playEpisode(episode)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
     /************************************
         MUSIC
     ************************************/
-    playMusic (searchType, searchQuery, shuffle = true) {
+    playMusic(searchType, searchQuery, shuffle = true) {
         this.log('playMusic(', searchType, ',', searchQuery, ')')
-        return this._library.searchMusic(searchType, searchQuery)
-            .then ( (songs) => {
-                return this._player.playMusic(songs, shuffle)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchMusic(searchType, searchQuery)
+                .then((songs) => {
+                    return this._player.playMusic(songs, shuffle)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    setPartyMode () {
+    setPartyMode() {
         this.log('setPartyMode()')
-        return this._player.setPartyMode()
+        if (this.getAvailable()) {
+            return this._player.setPartyMode()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
         ADDONS
     ************************************/
-    startAddon (addonName) {
+    startAddon(addonName) {
         this.log('startAddon (', addonName, ')')
-        return this._library.searchAddon(addonName)
-            .then( (addon) => {
-                return this._player.startAddon(addon)
-            })
+        if (this.getAvailable()) {
+            return this._library.searchAddon(addonName)
+                .then((addon) => {
+                    return this._player.startAddon(addon)
+                })
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /***********************************
         PLAYBACK
     ************************************/
-    nextOrPrevious (nextOrPrevious) {
+    nextOrPrevious(nextOrPrevious) {
         this.log('previousOrNext(', nextOrPrevious, ')')
-        return this._player.nextOrPrevious(nextOrPrevious)
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious(nextOrPrevious)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    setMute (onOff) {
+    setMute(onOff) {
         this.log('setMute(', onOff, ')')
-        return this._player.setMute(onOff)
+        if (this.getAvailable()) {
+            return this._player.setMute(onOff)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    setSubtitle (onOff) {
+    setSubtitle(onOff) {
         this.log('setSubtitle(', onOff, ')')
-        return this._player.setSubtitle(onOff)
+        if (this.getAvailable()) {
+            return this._player.setSubtitle(onOff)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    setVolume (volume) {
+    setVolume(volume) {
         this.log('setVolume(', volume, ')')
-        return this._player.setVolume(volume)
+        if (this.getAvailable()) {
+            return this._player.setVolume(volume)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    pauseResume () {
+    pauseResume() {
         this.log('playPause()')
-        return this._player.pauseResume()
+        if (this.getAvailable()) {
+            return this._player.pauseResume()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    stop () {
+    stop() {
         this.log('stop()')
-        return this._player.stop()
+        if (this.getAvailable()) {
+            return this._player.stop()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    isPlaying (playingFilter) {
+    isPlaying(playingFilter) {
         this.log('isPlaying(', playingFilter, ')')
-        this.log('playerstate', this._player.getState())
-        switch (playingFilter) {
-            case 'movie':
-                return this._player.getState() === 'playing_movie'
+        if (this.getAvailable()) {
+            this.log('playerstate', this._player.getState())
+            switch (playingFilter) {
+                case 'movie':
+                    return this._player.getState() === 'playing_movie'
 
-            case 'episode':
-                return this._player.getState() === 'playing_episode'
+                case 'episode':
+                    return this._player.getState() === 'playing_episode'
 
-            case 'music':
-                return this._player.getState() === 'playing_music'
+                case 'music':
+                    return this._player.getState() === 'playing_music'
 
-            case 'anything':
-                return (this._player.getState() !== 'paused' && this._player.getState() !== 'stopped')
+                case 'anything':
+                    return (this._player.getState() !== 'paused' && this._player.getState() !== 'stopped')
+            }
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
         }
     }
 
     /***********************************
         LIBRARY
     ************************************/
-    scanAudioLibrary () {
+    scanAudioLibrary() {
         this.log('scanAudioLibrary()')
-        return this._library.scanAudioLibrary()
+        if (this.getAvailable()) {
+            return this._library.scanAudioLibrary()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    scanVideoLibrary () {
+    scanVideoLibrary() {
         this.log('scanVideoLibrary()')
-        return this._library.scanVideoLibrary()
+        if (this.getAvailable()) {
+            return this._library.scanVideoLibrary()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
         SYSTEM
     ************************************/
-    reboot () {
+    reboot() {
         this.log('reboot()')
-        return this._system.reboot()
+        if (this.getAvailable()) {
+            return this._system.reboot()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    hibernate () {
+    hibernate() {
         this.log('hibernate()')
-        return this._system.hibernate()
+        if (this.getAvailable()) {
+            return this._system.hibernate()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    shutdown () {
+    shutdown() {
         this.log('shutdown()')
-        return this._system.shutdown()
+        if (this.getAvailable()) {
+            return this._system.shutdown()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
-    sendNotification (message) {
+    sendNotification(message) {
         this.log('sendNotification()')
-        return this._system.sendNotification(message)
+        if (this.getAvailable()) {
+            return this._system.sendNotification(message)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
     }
 
     /************************************
         EVENTS
     ************************************/
-    _onPause () {
+    _onPause() {
         this.log('_onPause()')
         let driver = this.getDriver()
         driver._flowTriggerKodiPause
             .trigger(this, null, null)
+
+        this.setCapabilityValue('speaker_playing', false)
     }
 
-    _onStop () {
+    _onStop() {
         this.log('_onStop()')
         let driver = this.getDriver()
         driver._flowTriggerKodiStop
             .trigger(this, null, null)
+
+        this.setCapabilityValue('speaker_playing', false)
+        this.setCapabilityValue('speaker_track', null)
+        this.setCapabilityValue('speaker_artist', null)
+        this.setImageByUrl(null)
     }
 
-    _onEpisodeStop (episode) {
+    _onEpisodeStop(episode) {
         this.log('_onEpisodeStop(', episode, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiEpisodeStop
             .trigger(this, episode.getParamFlow(), null)
     }
 
-    _onMovieStop (movie) {
+    _onMovieStop(movie) {
         this.log('_onMovieStop(', movie, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiMovieStop
             .trigger(this, movie.getParamFlow(), null)
     }
 
-    _onPlay () {
+    _onPlay() {
         this.log('_onPlay()')
         let driver = this.getDriver()
         driver._flowTriggerKodiPlayingSomething
             .trigger(this, null, null)
+
+        this.setCapabilityValue('speaker_playing', true)
     }
 
-    _onResume () {
+    _onResume() {
         this.log('_onResume()')
         let driver = this.getDriver()
         driver._flowTriggerKodiResume
             .trigger(this, null, null)
+
+        this.setCapabilityValue('speaker_playing', true)
     }
 
-    _onMovieStart (movie) {
+    _onMovieStart(movie) {
         this.log('_onMovieStart(', movie, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiMovieStart
             .trigger(this, movie.getParamFlow(), null)
+
+        this.setCapabilityValue('speaker_track', movie.toString())
+        this.setImageByUrl(movie.getArtworkUrl())
     }
 
-    _onEpisodeStart (episode) {
-        this.log('_onEpisodeStart(', episode,')')
+    _onEpisodeStart(episode) {
+        this.log('_onEpisodeStart(', episode, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiEpisodeStart
-            .trigger(this, episode.getParamFlow() , null)
+            .trigger(this, episode.getParamFlow(), null)
+
+        this.setCapabilityValue('speaker_artist', episode.getFullEpisodeName())
+        this.setCapabilityValue('speaker_track', episode.showTitle)
+        this.setImageByUrl(episode.artUrl)
     }
 
-    _onSongStart (song) {
+    _onSongStart(song) {
         this.log('_onSongStart(', song, ')')
         let driver = this.getDriver()
         driver._flowTriggerKodiSongStart
             .trigger(this, song.getParamFlow(), null)
     }
 
-    _onShutdown () {
+    _onShutdown() {
         this.log('_onShutdown()')
         let driver = this.getDriver()
         driver._flowTriggerKodiShutdown
             .trigger(this, null, null)
     }
 
-    _onHibernate () {
+    _onHibernate() {
         this.log('_onHibernate()')
         let driver = this.getDriver()
         driver._flowTriggerKodiHibernate
             .trigger(this, null, null)
     }
 
-    _onReboot () {
+    _onReboot() {
         this.log('_onReboot()')
         let driver = this.getDriver()
         driver._flowTriggerKodiReboot
             .trigger(this, null, null)
     }
 
-    _onWake () {
+    _onWake() {
         this.log('_onWake()')
         let driver = this.getDriver()
         driver._flowTriggerKodiWake
             .trigger(this, null, null)
     }
 
-    _onScreensaverOn () {
+    _onScreensaverOn() {
         this.log('_onScreensaverOn')
         let driver = this.getDriver()
         driver._flowTriggerKodiScreensaverOn
             .trigger(this, null, null)
     }
 
-    _onScreensaverOff () {
+    _onScreensaverOff() {
         this.log('_onScreensaverOff')
         let driver = this.getDriver()
         driver._flowTriggerKodiScreensaverOff
             .trigger(this, null, null)
     }
 
-    _onAudioScanFinished () {
+    _onAudioScanFinished() {
         this.log('_onAudioScanFinished')
         let driver = this.getDriver()
         driver._flowTriggerKodiAudioScanFinished
@@ -401,8 +505,58 @@ class KodiDevice extends Homey.Device {
     /************************************
         CAPABILITIES
     ************************************/
-    _onCapabilityVolumeSet (value, opts) {
-        this.log('_onCapabilityVolumeSet(', value, ',', opts)
+    _onCapabilityVolumeSet(value, opts) {
+        this.log('_onCapabilityVolumeSet(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            // Homey reports between 0-1, Kodi expects between 0-100, rouded integers
+            let volume = parseInt(value * 100)
+            return this._player.setVolume(volume)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    _onCapabilitySpeakerPlaying(value, opts) {
+        this.log('_onCapabilitySpeakerPlaying(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            return this._player.pauseResume()
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    _onCapabilityVolumeMute(value, opts) {
+        this.log('_onCapabilityVolumeMute(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            return this._player.setMute(value)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    _onCapabilitySpeakerPrev(value, opts) {
+        this.log('_onCapabilitySpeakerPrev(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious('previous')
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    _onCapabilitySpeakerNext(value, opts) {
+        this.log('_onCapabilitySpeakerNext(', value, ',', opts, ')')
+        if (this.getAvailable()) {
+            return this._player.nextOrPrevious('next')
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    // Helper
+    setImageByUrl(url) {
+        this.log('setImageByUrl(', url, ')')
+        this.artworkImage.setUrl(url)
+        this.artworkImage.update()
     }
 }
 

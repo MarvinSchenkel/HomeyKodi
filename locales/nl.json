@@ -1,69 +1,67 @@
 {
-	"talkback":{
-		"movie_not_found":"Ik kon de film niet vinden",
-		"device_not_found":"Ik kon het apparaat niet vinden",
-    "artist_not_found":"Ik kon de artiest niet vinden",
-    "album_not_found":"Ik kon het album niet vinden",
-		"not_implemented":"Ik weet nog niet hoe ik dit moet doen",
-    "series_not_found":"Ik kon de serie die je zocht niet vinden",
-    "no_latest_episode_found":"Je hebt elke aflevering van deze serie al bekeken!",
-    "no_movies_in_library": "Er zijn geen films in je bibliotheek, voeg ze eerst toe.",
-    "no_tvshows_in_library": "Er zijn geen series in je bibliotheek, voeg ze eerst toe",
-    "no_music_in_library": "Er is geen muziek in je bibliotheek, voeg het eerst toe",
+	"talkback": {
+		"movie_not_found": "Ik kon de film niet vinden",
+		"device_not_found": "Ik kon het apparaat niet vinden",
+		"artist_not_found": "Ik kon de artiest niet vinden",
+		"album_not_found": "Ik kon het album niet vinden",
+		"not_implemented": "Ik weet nog niet hoe ik dit moet doen",
+		"series_not_found": "Ik kon de serie die je zocht niet vinden",
+		"no_latest_episode_found": "Je hebt elke aflevering van deze serie al bekeken!",
+		"no_movies_in_library": "Er zijn geen films in je bibliotheek, voeg ze eerst toe.",
+		"no_tvshows_in_library": "Er zijn geen series in je bibliotheek, voeg ze eerst toe",
+		"no_music_in_library": "Er is geen muziek in je bibliotheek, voeg het eerst toe",
 		"no_addons_installed": "Er zijn geen addons geinstalleerd",
 		"addon_not_found": "Ik kon de addon niet vinden.",
 		"no_new_movies_in_library": "Nee, er zijn geen nieuwe films in je bibliotheek",
 		"found_following_movies": "De volgende films zijn aan je bibliotheek toegevoegd in de afgelopen __days_since__ dagen",
-		"no_new_episodes_in_library": "Nee, er zijn geen nieuwe afleveringen in je bibliotheek",		
+		"no_new_episodes_in_library": "Nee, er zijn geen nieuwe afleveringen in je bibliotheek",
 		"found_following_episodes": "De volgende afleveringen zijn aan je bibliotheek toegevoegd in de afgelopen __days_since__ dagen",
 		"found_episode": "__showtitle__, Seizoen __season__ aflevering __episode__. __episode_title__",
-    "something_went_wrong": "Oeps! Er ging iets fout"
-	}
-	,
-	"question":{
-		"what_movie":"Welke film wil je kijken?",
-		"what_serie":"Welke serie wil je kijken?",
-		"which_season":"Van welk seizoen wil je een aflevering zien?",
-		"which_episode":"Welke aflevering wil je zien?",
-		"what_media":"Wat wil je kijken? Een film of serie?",
+		"something_went_wrong": "Oeps! Er ging iets fout",
+		"kodi_offline": "Er kan geen verbinding worden gemaakt met kodi"
+	},
+	"question": {
+		"what_movie": "Welke film wil je kijken?",
+		"what_serie": "Welke serie wil je kijken?",
+		"which_season": "Van welk seizoen wil je een aflevering zien?",
+		"which_episode": "Welke aflevering wil je zien?",
+		"what_media": "Wat wil je kijken? Een film of serie?",
 		"latest_episode_retry": "Laten we het nog een keer proberen. Van welke serie wilde je de laatste aflevering zien?",
 		"confirm_hibernate": "Weet je zeker dat je Kodi in slaapstand wilt zetten?",
 		"confirm_reboot": "Weet je zeker dat je Kodi opnieuw op wilt starten?",
 		"confirm_shutdown": "Weet je zeker dat je Kodi af wilt sluiten?"
-	}
-	,
+	},
 	"speech": {
 		"play": "speel",
-		"movie":"film",
-		"tv_show":"serie",
-		"on kodi":"op kodi",
-    "artist": "artiest",
-    "by": "van",
-    "on":"op"
-	}
-	,
+		"movie": "film",
+		"tv_show": "serie",
+		"on kodi": "op kodi",
+		"artist": "artiest",
+		"by": "van",
+		"on": "op"
+	},
 	"pair": {
 		"authorization": {
 			"configure": "Configureer Kodi",
-			"start_configuration":"Opslaan!",
+			"start_configuration": "Opslaan!",
 			"configuration_explanation": "Voer je Kodi connectie details in! <br />Deze kun je vinden onder System > Systeeminformatie. <br />Zorg er ook voor dat de optie 'Sta externe programmas toe om Kodi te besturen' aan staat onder System/Settings/Network/Services. Herstart Kodi na het aanzetten van deze optie. Zorg er ook voor dat je HTTP poort niet hetzelfde is als je TCP poort (9090)!"
 		},
-    "configuration": {
-       "name": "Naam",
-       "ip_address": "IP Adres",
-       "tcpPort": "TCP Poort (standaard 9090)"       
-    },
-		"feedback":{
+		"configuration": {
+			"name": "Naam",
+			"ip_address": "IP Adres",
+			"tcpPort": "TCP Poort (standaard 9090)"
+		},
+		"feedback": {
 			"could_not_connect": "Kon geen verbinding maken met Kodi. Check je connectie gegevens.",
 			"succesfully_connected": "Connectie succesvol!",
 			"device_already_exists": "Dit kodi apparaat is al toegevoegd."
 		}
-	 },
-	 "settings":{
-		 "title": "Kodi instellingen",
-		 "application_settings":"Applicatie instellingen",
-		 "days_since_new_movies_episode": "Aantal dagen dat Kodi teruggaat om te zoeken voor nieuwe films / afleveringen",
-		 "loglegend":"Logs",		 
-		 "log_intro": "Deze pagina toont de laatste 50 log entries van de Kodi app. Als je problemen hebt met de app kan deze informatie je verder helpen."
-	 }
+	},
+	"settings": {
+		"title": "Kodi instellingen",
+		"application_settings": "Applicatie instellingen",
+		"days_since_new_movies_episode": "Aantal dagen dat Kodi teruggaat om te zoeken voor nieuwe films / afleveringen",
+		"loglegend": "Logs",
+		"log_intro": "Deze pagina toont de laatste 50 log entries van de Kodi app. Als je problemen hebt met de app kan deze informatie je verder helpen."
+	}
 }
