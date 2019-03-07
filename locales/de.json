@@ -1,0 +1,67 @@
+{
+	"talkback": {
+		"movie_not_found": "Ich konnte den Film nicht finden",
+		"device_not_found": "Ich konnte das Gerät nicht finden",
+		"artist_not_found": "Ich konnte den Künstler nicht finden",
+		"album_not_found": "Ich konnte das Album nicht finden",
+		"not_implemented": "Ich weiß noch nicht, wie ich das machen soll",
+		"series_not_found": "Ich konnte die Fernsehsendung nicht finden, nach der Sie gesucht haben",
+		"no_latest_episode_found": "Sie haben bereits jede Folge dieser Fernsehsendung gesehen!",
+		"no_movies_in_library": "Es gibt keine Filme in Ihrer Bibliothek. Bitte fügen Sie sie zuerst hinzu.",
+		"no_tvshows_in_library": "In Ihrer Bibliothek gibt es keine Fernsehsendungen. Bitte fügen Sie diese zuerst hinzu.",
+		"no_music_in_library": "Es gibt keine Musik in Ihrer Bibliothek, bitte fügen Sie diese zuerst hinzu.",
+		"no_addons_installed": "Es sind keine Addons installiert",
+		"addon_not_found": "Ich konnte das Addon nicht finden.",
+		"no_new_movies_in_library": "Nein, es gibt keine neuen Filme in Ihrer Bibliothek",
+		"found_following_movies": "Die folgenden Filme wurden in den letzten Tagen in  Ihrer Bibliothek hinzugefügt __days_since__ Tagen",
+		"no_new_episodes_in_library": "Nein, es gibt keine neuen Episoden in Ihrer Bibliothek",
+		"found_following_episodes": "Die folgenden Episoden wurden Ihrer Bibliothek in der Vergangenheit hinzugefügt __days_since__ Tagen",
+		"found_episode": "__showtitle__, Serie __season__ Folge __episode__. __episode_title__",
+		"something_went_wrong": "Hoppla! Etwas ist schief gelaufen",
+		"kodi_offline": "Konnte keine Verbindung zu Kodi herstellen, vielleicht ist es offline?"
+	},
+	"question": {
+		"what_movie": "Welchen Film möchtest du sehen?",
+		"what_serie": "Welche Fernsehsendung möchtest du sehen?",
+		"which_season": "Welche Serie möchtest du sehen?",
+		"which_episode": "Welche Folge möchtest du sehen?",
+		"what_media": "Was willst du dir ansehen? Ein Film oder eine Fernsehsendung?",
+		"latest_episode_retry": "Lass es uns erneut versuchen. Von welcher Fernsehsendung möchten Sie die neueste Folge sehen?",
+		"confirm_hibernate": "Möchten Sie Kodi wirklich in den Ruhezustand versetzen?",
+		"confirm_reboot": "Möchten Sie Kodi wirklich neu starten?",
+		"confirm_shutdown": "Möchten Sie Kodi wirklich herunterfahren?"
+	},
+	"speech": {
+		"play": "Start",
+		"movie": "Film",
+		"tv_show": "Fernsehsendung",
+		"on kodi": "Kodi einschalten",
+		"artist": "Künstler",
+		"by": "Aus",
+		"on": "Ein"
+	},
+	"pair": {
+		"authorization": {
+			"configure": "Konfiguriere Kodi",
+			"start_configuration": "Konfiguriere!",
+			"configuration_explanation": "Stellen Sie eine Verbindung zu Kodi her <br /> Diese finden Sie unter System > System Info. <br />Aktivieren Sie unter Einstellungen / Dienste die Option 'Programme auf anderen Systemen zur Steuerung von Kodi zulassen'<br />Vergessen Sie nicht, Kodi neu zu starten, nachdem diese Option aktiviert wurde. Stellen Sie sicher, dass Ihr HTTP-Port: 9090 nicht konfiguriert ist!"
+		},
+		"configuration": {
+			"name": "Name",
+			"ip_address": "IP Addresse",
+			"tcpPort": "TCP Port (Default 9090)"
+		},
+		"feedback": {
+			"could_not_connect": "Die Verbindung zu Ihrem Kodi konnte nicht hergestellt werden! Bitte überprüfen Sie Ihre Angaben.",
+			"succesfully_connected": "Verbindung erfolgreich!",
+			"device_already_exists": "Dieses Gerät wurde bereits hinzugefügt."
+		}
+	},
+	"settings": {
+		"title": "Kodi Einstellungen",
+		"application_settings": "Anwendungseinstellungen",
+		"days_since_new_movies_episode": "Anzahl der Tage wenn Kodi nach neuen Filmen gefragt wird, sucht Kodi nach neuen Filmen / Folgen",
+		"loglegend": "Einträge",
+		"log_intro": "Diese Seite zeigt die letzten 50 Einträge von der Kodi-App. Wenn Sie Probleme mit der App haben, finden Sie in diesen Einträgen einige Hinweise zur Lösung des Problems."
+	}
+}

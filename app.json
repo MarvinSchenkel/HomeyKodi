@@ -1,14 +1,16 @@
 {
   "id": "nl.marvinschenkel.kodi",
   "name": {
+    "de": "Kodi",
     "en": "Kodi",
     "nl": "Kodi"
   },
   "description": {
+    "de": "Steuern Sie Ihr Kodi-Gerät mit Homey!",
     "en": "Control your Kodi device with Homey!",
     "nl": "Bestuur je Kodi apparaat met Homey!"
   },
-  "version": "2.4.0",
+  "version": "2.5.0",
   "brandColor": "#12B2E7",
   "athomForumDiscussionId": 842,
   "sdk": 2,
@@ -28,6 +30,14 @@
         "username": "MSchenkel91"
       }
     }
+  },
+  "contributors": {
+    "translators": [
+      {
+        "name": "Michael Schimkat",
+        "email": "macschimmi@gmail.com"
+      }
+    ]
   },
   "drivers": [
     {
@@ -69,6 +79,7 @@
         {
           "type": "group",
           "label": {
+            "de": "Kodi Einstellungen",
             "en": "Kodi settings",
             "nl": "Kodi instellingen"
           },
@@ -78,6 +89,7 @@
               "type": "text",
               "value": "0.0.0.0",
               "label": {
+                "de": "(Local) IP Addresse von Kodi",
                 "en": "(Local) IP Address of Kodi",
                 "nl": "(Lokale) IP adres van Kodi"
               }
@@ -87,6 +99,7 @@
               "type": "number",
               "value": 9090,
               "label": {
+                "de": "TCP Port",
                 "en": "TCP Port",
                 "nl": "TCP Poort"
               }
@@ -98,6 +111,7 @@
     {
       "id": "kodi_manual",
       "name": {
+        "de": "Kodi Anleitung",
         "en": "Kodi Manual",
         "nl": "Kodi Handmatig"
       },
@@ -127,6 +141,7 @@
         {
           "type": "group",
           "label": {
+            "de": "Kodi Einstellungen",
             "en": "Kodi settings",
             "nl": "Kodi instellingen"
           },
@@ -136,6 +151,7 @@
               "type": "text",
               "value": "0.0.0.0",
               "label": {
+                "de": "(Local) IP Addresse von Kodi",
                 "en": "(Local) IP Address of Kodi",
                 "nl": "(Lokale) IP adres van Kodi"
               }
@@ -145,6 +161,7 @@
               "type": "number",
               "value": 9090,
               "label": {
+                "de": "TCP Port",
                 "en": "TCP Port",
                 "nl": "TCP Poort"
               }
@@ -163,6 +180,7 @@
       {
         "id": "kodi_movie_start",
         "title": {
+          "de": "Ein Film beginnt",
           "en": "A movie has started",
           "nl": "Een film begint"
         },
@@ -172,6 +190,7 @@
             "type": "device",
             "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": {
+              "de": "Welches Kodi-Gerät",
               "en": "Which Kodi device",
               "nl": "Welk Kodi apparaat"
             }
@@ -181,10 +200,12 @@
           {
             "name": "movie_title",
             "title": {
+              "de": "Titel",
               "en": "Title",
               "nl": "Titel"
             },
             "example": {
+              "de": "Findet Nemo",
               "en": "Finding Nemo",
               "nl": "Finding Nemo"
             }
@@ -194,6 +215,7 @@
       {
         "id": "kodi_movie_stop",
         "title": {
+          "de": "Der Film wurde gestoppt",
           "en": "A movie has stopped",
           "nl": "Een film stopt"
         },
@@ -203,6 +225,7 @@
             "type": "device",
             "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": {
+              "de": "Welches Kodi-Gerät",
               "en": "Which Kodi device",
               "nl": "Welk Kodi apparaat"
             }
@@ -212,10 +235,12 @@
           {
             "name": "movie_title",
             "title": {
+              "de": "Titel",
               "en": "Title",
               "nl": "Titel"
             },
             "example": {
+              "de": "Findet Nemo",
               "en": "Finding Nemo",
               "nl": "Finding Nemo"
             }
@@ -225,6 +250,7 @@
       {
         "id": "kodi_song_start",
         "title": {
+          "de": "Ein Lied wird abgespielt",
           "en": "A song starts playing",
           "nl": "Er wordt muziek afgespeeld"
         },
@@ -234,6 +260,7 @@
             "type": "device",
             "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": {
+              "de": "Welches Kodi-Gerät",
               "en": "Which Kodi device",
               "nl": "Welk Kodi apparaat"
             }
@@ -243,10 +270,12 @@
           {
             "name": "artist",
             "title": {
+              "de": "Künstler",
               "en": "Artist",
               "nl": "Artiest"
             },
             "example": {
+              "de": "Gareth Emery",
               "en": "Gareth Emery",
               "nl": "Gareth Emery"
             }
@@ -254,10 +283,12 @@
           {
             "name": "song_title",
             "title": {
+              "de": "Titel",
               "en": "Title",
               "nl": "Titel"
             },
             "example": {
+              "de": "Soldier",
               "en": "Soldier",
               "nl": "Soldier"
             }
@@ -267,6 +298,7 @@
       {
         "id": "kodi_episode_start",
         "title": {
+          "de": "Eine Folge hat begonnen",
           "en": "An episode has started",
           "nl": "Een aflevering begint"
         },
@@ -281,10 +313,12 @@
           {
             "name": "tvshow_title",
             "title": {
+              "de": "Serie",
               "en": "Show",
               "nl": "Serie"
             },
             "example": {
+              "de": "The Walking Dead",
               "en": "The Walking Dead",
               "nl": "The Walking Dead"
             }
@@ -292,10 +326,12 @@
           {
             "name": "episode_title",
             "title": {
+              "de": "Folge",
               "en": "Episode",
               "nl": "Aflevering"
             },
             "example": {
+              "de": "First Time Again",
               "en": "First Time Again",
               "nl": "First Time Again"
             }
@@ -303,10 +339,12 @@
           {
             "name": "season",
             "title": {
+              "de": "Ser #",
               "en": "Sea #",
               "nl": "Sei #"
             },
             "example": {
+              "de": "1",
               "en": "1",
               "nl": "1"
             }
@@ -314,10 +352,12 @@
           {
             "name": "episode",
             "title": {
+              "de": "Ep #",
               "en": "Ep #",
               "nl": "Afl #"
             },
             "example": {
+              "de": "2",
               "en": "2",
               "nl": "2"
             }
@@ -327,6 +367,7 @@
       {
         "id": "kodi_episode_stop",
         "title": {
+          "de": "Die Folge wurde beendet",
           "en": "An episode has stopped",
           "nl": "Een aflevering stopt"
         },
@@ -341,10 +382,12 @@
           {
             "name": "tvshow_title",
             "title": {
+              "de": "Serie",
               "en": "Show",
               "nl": "Serie"
             },
             "example": {
+              "de": "The Walking Dead",
               "en": "The Walking Dead",
               "nl": "The Walking Dead"
             }
@@ -352,10 +395,12 @@
           {
             "name": "episode_title",
             "title": {
+              "de": "Folge",
               "en": "Episode",
               "nl": "Aflevering"
             },
             "example": {
+              "de": "First Time Again",
               "en": "First Time Again",
               "nl": "First Time Again"
             }
@@ -363,10 +408,12 @@
           {
             "name": "season",
             "title": {
+              "de": "Ser #",
               "en": "Sea #",
               "nl": "Sei #"
             },
             "example": {
+              "de": "1",
               "en": "1",
               "nl": "1"
             }
@@ -374,10 +421,12 @@
           {
             "name": "episode",
             "title": {
+              "de": "Ep #",
               "en": "Ep #",
               "nl": "Afl #"
             },
             "example": {
+              "de": "2",
               "en": "2",
               "nl": "2"
             }
@@ -387,6 +436,7 @@
       {
         "id": "kodi_playing_something",
         "title": {
+          "de": "Kodi spielt etwas ab",
           "en": "Kodi starts playing something",
           "nl": "Kodi start met iets afspelen"
         },
@@ -401,6 +451,7 @@
       {
         "id": "kodi_reconnects",
         "title": {
+          "de": "Homey verbindet sich wieder mit Kodi",
           "en": "Homey reconnects to Kodi",
           "nl": "Homey (her) verbindt met Kodi"
         },
@@ -415,6 +466,7 @@
       {
         "id": "kodi_pause",
         "title": {
+          "de": "Kodi pausiert",
           "en": "Kodi has been paused",
           "nl": "Kodi is gepauzeerd"
         },
@@ -429,6 +481,7 @@
       {
         "id": "kodi_resume",
         "title": {
+          "de": "Kodi es geht weiter",
           "en": "Kodi has been resumed",
           "nl": "Kodi begint weer af te spelen"
         },
@@ -443,6 +496,7 @@
       {
         "id": "kodi_stop",
         "title": {
+          "de": "Kodi wurde gestoppt",
           "en": "Kodi has been stopped",
           "nl": "Kodi is gestopt"
         },
@@ -457,6 +511,7 @@
       {
         "id": "kodi_hibernate",
         "title": {
+          "de": "Kodi geht in den Ruhezustand",
           "en": "Kodi is going to hibernate",
           "nl": "Kodi gaat in slaapstand"
         },
@@ -471,6 +526,7 @@
       {
         "id": "kodi_reboot",
         "title": {
+          "de": "Kodi startet neu",
           "en": "Kodi is going to reboot",
           "nl": "Kodi wordt herstart"
         },
@@ -485,6 +541,7 @@
       {
         "id": "kodi_shutdown",
         "title": {
+          "de": "Kodi wird heruntergefahren",
           "en": "Kodi is going to shutdown",
           "nl": "Kodi wordt afgesloten"
         },
@@ -499,6 +556,7 @@
       {
         "id": "kodi_wake",
         "title": {
+          "de": "Kodi wacht auf",
           "en": "Kodi woke up from hibernate",
           "nl": "Kodi is actief na slaapstand"
         },
@@ -513,6 +571,7 @@
       {
         "id": "kodi_ss_on",
         "title": {
+          "de": "Kodi Bildschirmschoner ein",
           "en": "Kodi screensaver on",
           "nl": "Kodi screensaver aan"
         },
@@ -527,6 +586,7 @@
       {
         "id": "kodi_ss_off",
         "title": {
+          "de": "Kodi Bildschirmschoner aus",
           "en": "Kodi screensaver off",
           "nl": "Kodi screensaver uit"
         },
@@ -541,6 +601,7 @@
       {
         "id": "kodi_audio_scan_finished",
         "title": {
+          "de": "Kodi hat das Scannen der Audiobibliothek abgeschlossen",
           "en": "Kodi finished scanning the audio library",
           "nl": "Kodi is klaar met het scannen van de audio bibliotheek"
         },
@@ -555,6 +616,7 @@
       {
         "id": "kodi_video_scan_finished",
         "title": {
+          "de": "Kodi hat das Scannen der Filmbibliothek abgeschlossen",
           "en": "Kodi finished scanning the video library",
           "nl": "Kodi is klaar met het scannen van de video bibliotheek"
         },
@@ -571,6 +633,7 @@
       {
         "id": "is_playing",
         "title": {
+          "de": "Kodi spielt ab...",
           "en": "Kodi is playing...",
           "nl": "Kodi speelt af..."
         },
@@ -580,6 +643,7 @@
             "type": "device",
             "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual",
             "placeholder": {
+              "de": "Welches Kodi-Gerät",
               "en": "Which Kodi device",
               "nl": "Welk Kodi apparaat"
             }
@@ -591,6 +655,7 @@
               {
                 "id": "movie",
                 "label": {
+                  "de": "ein Film",
                   "en": "a movie",
                   "nl": "een film"
                 }
@@ -598,6 +663,7 @@
               {
                 "id": "episode",
                 "label": {
+                  "de": "eine Folge",
                   "en": "an episode",
                   "nl": "een aflevering"
                 }
@@ -605,6 +671,7 @@
               {
                 "id": "music",
                 "label": {
+                  "de": "Musik",
                   "en": "music",
                   "nl": "muziek"
                 }
@@ -612,6 +679,7 @@
               {
                 "id": "anything",
                 "label": {
+                  "de": "irgendetwas",
                   "en": "anything",
                   "nl": "maakt niet uit"
                 }
@@ -625,6 +693,7 @@
       {
         "id": "play_movie_kodi",
         "title": {
+          "de": "Spiele ein Film auf Kodi",
           "en": "Play a movie on Kodi",
           "nl": "Speel een film af op Kodi"
         },
@@ -639,6 +708,7 @@
             "name": "movie_title",
             "type": "text",
             "placeholder": {
+              "de": "Geben Sie einen Filmtitel ein, der sich in Ihrer Bibliothek befindet",
               "en": "Type a movie title that's in your library",
               "nl": "Voer een film uit je bibliotheek in"
             }
@@ -648,6 +718,7 @@
       {
         "id": "play_latest_episode_kodi",
         "title": {
+          "de": "Spielen Sie die neueste Folge einer Serie auf Kodi",
           "en": "Play the latest unwatched episode of a series on Kodi",
           "nl": "Speel de laatste niet afgespeelde aflevering van een serie af op Kodi"
         },
@@ -662,6 +733,7 @@
             "name": "series_title",
             "type": "text",
             "placeholder": {
+              "de": "Geben Sie einen Serientitel ein, der sich in Ihrer Bibliothek befindet",
               "en": "Type a series title that's in your library",
               "nl": "Voer een serie uit je bibliotheek in"
             }
@@ -671,6 +743,7 @@
       {
         "id": "start_addon_kodi",
         "title": {
+          "de": "Starten Sie ein Addon Kodi",
           "en": "Start an addon Kodi",
           "nl": "Start een addon op Kodi"
         },
@@ -685,6 +758,7 @@
             "name": "addon_name",
             "type": "text",
             "placeholder": {
+              "de": "Geben Sie einen Addon-Namen ein, der sich in Ihrer Bibliothek befindet",
               "en": "Type an addon name that's in your library",
               "nl": "Voer een naam van een addon uit je bibliotheek in"
             }
@@ -694,6 +768,7 @@
       {
         "id": "play_music_by_artist",
         "title": {
+          "de": "Musik vom Künstler abspielen",
           "en": "Play music by artist",
           "nl": "Speel muziek van artiest"
         },
@@ -708,6 +783,7 @@
             "name": "artist",
             "type": "text",
             "placeholder": {
+              "de": "Geben Sie einen Künstler in Ihre Bibliothek ein",
               "en": "Type an artist in your library",
               "nl": "Voer een artiest uit je bibliotheek in"
             }
@@ -717,6 +793,7 @@
       {
         "id": "next_track",
         "title": {
+          "de": "Nächster",
           "en": "Next",
           "nl": "Volgende"
         },
@@ -732,6 +809,7 @@
       {
         "id": "previous_track",
         "title": {
+          "de": "Vorheriger",
           "en": "Previous",
           "nl": "Vorige"
         },
@@ -747,6 +825,7 @@
       {
         "id": "set_volume",
         "title": {
+          "de": "Stellen Sie die Lautstärke von Kodi ein",
           "en": "Set the volume of Kodi",
           "nl": "Stel het volume van Kodi in"
         },
@@ -772,6 +851,7 @@
       {
         "id": "pause_resume_kodi",
         "title": {
+          "de": "Pause / Wiedergabe auf Kodi fortsetzen",
           "en": "Pause / resume playback on Kodi",
           "nl": "Pauzeer / hervat Kodi"
         },
@@ -787,6 +867,7 @@
       {
         "id": "stop_kodi",
         "title": {
+          "de": "Stoppen Sie die Wiedergabe auf Kodi",
           "en": "Stop playback on Kodi",
           "nl": "Stop afspelen op Kodi"
         },
@@ -802,6 +883,7 @@
       {
         "id": "hibernate_kodi",
         "title": {
+          "de": "Kodi Ruhezustand",
           "en": "Hibernate Kodi",
           "nl": "Zet Kodi in slaapstand"
         },
@@ -817,6 +899,7 @@
       {
         "id": "reboot_kodi",
         "title": {
+          "de": "Neustart Kodi",
           "en": "Reboot Kodi",
           "nl": "Herstart Kodi"
         },
@@ -832,6 +915,7 @@
       {
         "id": "shutdown_kodi",
         "title": {
+          "de": "Kodi ausschalten",
           "en": "Shutdown Kodi",
           "nl": "Sluit Kodi af"
         },
@@ -847,6 +931,7 @@
       {
         "id": "mute_kodi",
         "title": {
+          "de": "Kodi stummschalten",
           "en": "Mute Kodi",
           "nl": "Zet Kodi op mute"
         },
@@ -862,6 +947,7 @@
       {
         "id": "unmute_kodi",
         "title": {
+          "de": "Kodi - Stummschaltung aufheben",
           "en": "Unmute Kodi",
           "nl": "Zet Kodi op luid (unmute)"
         },
@@ -877,6 +963,7 @@
       {
         "id": "party_mode_kodi",
         "title": {
+          "de": "Musik-Party-Modus einschalten",
           "en": "Set music party mode on",
           "nl": "Zet party modus aan"
         },
@@ -892,6 +979,7 @@
       {
         "id": "subtitle_on",
         "title": {
+          "de": "Untertitel einschalten",
           "en": "Turn subtitle on",
           "nl": "Zet ondertiteling aan"
         },
@@ -907,6 +995,7 @@
       {
         "id": "subtitle_off",
         "title": {
+          "de": "Untertitel ausschalten",
           "en": "Turn subtitle off",
           "nl": "Zet ondertiteling uit"
         },
@@ -922,6 +1011,7 @@
       {
         "id": "send_notification",
         "title": {
+          "de": "Benachrichtigung senden",
           "en": "Send a notification",
           "nl": "Stuur een notificatie"
         },
@@ -941,6 +1031,7 @@
       {
         "id": "scan_video_library",
         "title": {
+          "de": "Scannen Sie die Videobibliothek nach neuen Inhalten",
           "en": "Scan the video library for new content",
           "nl": "Scan de video bibliotheek voor nieuwe content"
         },
@@ -956,6 +1047,7 @@
       {
         "id": "scan_audio_library",
         "title": {
+          "de": "Scannen Sie die Audiobibliothek nach neuen Inhalten",
           "en": "Scan the audio library for new content",
           "nl": "Scan de audio bibliotheek voor nieuwe content"
         },
