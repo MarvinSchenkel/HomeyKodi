@@ -157,7 +157,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         MOVIE
     ************************************/
-    playMovie(movieTitle) {
+    async playMovie(movieTitle) {
         this.log('playMovie(', movieTitle, ')')
         if (this.getAvailable()) {
             return this._library.searchMovie(movieTitle)
@@ -173,7 +173,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         EPISODES
     ************************************/
-    playLatestUnwatchedEpisode(showTitle) {
+    async playLatestUnwatchedEpisode(showTitle) {
         this.log('playLatestUnwatchedEpisode(', showTitle, ')')
         if (this.getAvailable()) {
             return this._library.getLatestUnwatchedEpisode(showTitle)
@@ -187,7 +187,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         MUSIC
     ************************************/
-    playMusic(searchType, searchQuery, shuffle = true) {
+    async playMusic(searchType, searchQuery, shuffle = true) {
         this.log('playMusic(', searchType, ',', searchQuery, ')')
         if (this.getAvailable()) {
             return this._library.searchMusic(searchType, searchQuery)
@@ -199,7 +199,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    setPartyMode() {
+    async setPartyMode() {
         this.log('setPartyMode()')
         if (this.getAvailable()) {
             return this._player.setPartyMode()
@@ -211,7 +211,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         ADDONS
     ************************************/
-    startAddon(addonName) {
+    async startAddon(addonName) {
         this.log('startAddon (', addonName, ')')
         if (this.getAvailable()) {
             return this._library.searchAddon(addonName)
@@ -226,7 +226,7 @@ class KodiDevice extends Homey.Device {
     /***********************************
         PLAYBACK
     ************************************/
-    nextOrPrevious(nextOrPrevious) {
+    async nextOrPrevious(nextOrPrevious) {
         this.log('previousOrNext(', nextOrPrevious, ')')
         if (this.getAvailable()) {
             return this._player.nextOrPrevious(nextOrPrevious)
@@ -235,7 +235,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    setMute(onOff) {
+    async setMute(onOff) {
         this.log('setMute(', onOff, ')')
         if (this.getAvailable()) {
             return this._player.setMute(onOff)
@@ -244,7 +244,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    setSubtitle(onOff) {
+    async setSubtitle(onOff) {
         this.log('setSubtitle(', onOff, ')')
         if (this.getAvailable()) {
             return this._player.setSubtitle(onOff)
@@ -253,7 +253,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    setVolume(volume) {
+    async setVolume(volume) {
         this.log('setVolume(', volume, ')')
         if (this.getAvailable()) {
             return this._player.setVolume(volume)
@@ -262,7 +262,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    pauseResume() {
+    async pauseResume() {
         this.log('playPause()')
         if (this.getAvailable()) {
             return this._player.pauseResume()
@@ -271,7 +271,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    stop() {
+    async stop() {
         this.log('stop()')
         if (this.getAvailable()) {
             return this._player.stop()
@@ -280,7 +280,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    isPlaying(playingFilter) {
+    async isPlaying(playingFilter) {
         this.log('isPlaying(', playingFilter, ')')
         if (this.getAvailable()) {
             this.log('playerstate', this._player.getState())
@@ -305,7 +305,7 @@ class KodiDevice extends Homey.Device {
     /***********************************
         LIBRARY
     ************************************/
-    scanAudioLibrary() {
+    async scanAudioLibrary() {
         this.log('scanAudioLibrary()')
         if (this.getAvailable()) {
             return this._library.scanAudioLibrary()
@@ -314,7 +314,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    scanVideoLibrary() {
+    async scanVideoLibrary() {
         this.log('scanVideoLibrary()')
         if (this.getAvailable()) {
             return this._library.scanVideoLibrary()
@@ -326,7 +326,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         SYSTEM
     ************************************/
-    reboot() {
+    async reboot() {
         this.log('reboot()')
         if (this.getAvailable()) {
             return this._system.reboot()
@@ -335,7 +335,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    hibernate() {
+    async hibernate() {
         this.log('hibernate()')
         if (this.getAvailable()) {
             return this._system.hibernate()
@@ -344,7 +344,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    shutdown() {
+    async shutdown() {
         this.log('shutdown()')
         if (this.getAvailable()) {
             return this._system.shutdown()
@@ -353,7 +353,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    sendNotification(message) {
+    async sendNotification(message) {
         this.log('sendNotification()')
         if (this.getAvailable()) {
             return this._system.sendNotification(message)
@@ -505,7 +505,7 @@ class KodiDevice extends Homey.Device {
     /************************************
         CAPABILITIES
     ************************************/
-    _onCapabilityVolumeSet(value, opts) {
+    async _onCapabilityVolumeSet(value, opts) {
         this.log('_onCapabilityVolumeSet(', value, ',', opts, ')')
         if (this.getAvailable()) {
             // Homey reports between 0-1, Kodi expects between 0-100, rouded integers
@@ -516,7 +516,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    _onCapabilitySpeakerPlaying(value, opts) {
+    async _onCapabilitySpeakerPlaying(value, opts) {
         this.log('_onCapabilitySpeakerPlaying(', value, ',', opts, ')')
         if (this.getAvailable()) {
             return this._player.pauseResume()
@@ -525,7 +525,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    _onCapabilityVolumeMute(value, opts) {
+    async _onCapabilityVolumeMute(value, opts) {
         this.log('_onCapabilityVolumeMute(', value, ',', opts, ')')
         if (this.getAvailable()) {
             return this._player.setMute(value)
@@ -534,7 +534,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    _onCapabilitySpeakerPrev(value, opts) {
+    async _onCapabilitySpeakerPrev(value, opts) {
         this.log('_onCapabilitySpeakerPrev(', value, ',', opts, ')')
         if (this.getAvailable()) {
             return this._player.nextOrPrevious('previous')
@@ -543,7 +543,7 @@ class KodiDevice extends Homey.Device {
         }
     }
 
-    _onCapabilitySpeakerNext(value, opts) {
+    async _onCapabilitySpeakerNext(value, opts) {
         this.log('_onCapabilitySpeakerNext(', value, ',', opts, ')')
         if (this.getAvailable()) {
             return this._player.nextOrPrevious('next')
