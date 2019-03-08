@@ -10,7 +10,7 @@
     "en": "Control your Kodi device with Homey!",
     "nl": "Bestuur je Kodi apparaat met Homey!"
   },
-  "version": "2.5.0",
+  "version": "2.5.1",
   "brandColor": "#12B2E7",
   "athomForumDiscussionId": 842,
   "sdk": 2,
@@ -32,7 +32,7 @@
     }
   },
   "contributors": {
-    "contributors": [
+    "translators": [
       {
         "name": "Michael Schimkat"
       }
