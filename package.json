@@ -5,7 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "fuse.js": "^2.0.1",
-    "xbmc-listener": "^0.1.4"
+    "node-kodi-ws": "^2.3.0",
+    "bonjour": "^3.5.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -20,8 +21,11 @@
   "bugs": {
     "url": "https://github.com/MarvinSchenkel/HomeyKodi/issues"
   },
-  "homepage": "https://github.com/MarvinSchenkel/HomeyKodi#readme",  
+  "homepage": "https://github.com/MarvinSchenkel/HomeyKodi#readme",
   "standard": {
-    "globals": [ "__", "Homey" ]
+    "globals": [
+      "__",
+      "Homey"
+    ]
   }
 }
