@@ -116,7 +116,7 @@ class KodiDevice extends Homey.Device {
         this._registerNewConnection(ipAddress, port)
     }
 
-    _registerNewConnection(ipAddress, port) {
+    async _registerNewConnection(ipAddress, port) {
         // Register event listeners.
         this._kodi.on('close', () => {
             this.log('got conn close')
@@ -138,6 +138,29 @@ class KodiDevice extends Homey.Device {
         this._player.on('movie_start', (movie) => { this._onMovieStart(movie) })
         this._player.on('episode_start', (episode) => { this._onEpisodeStart(episode) })
         this._player.on('song_start', (song) => { this._onSongStart(song) })
+        await this._player.setInitialState()
+
+        // Sync initial capability state
+        if (this._player._state === 'playing') {
+            this.setCapabilityValue('speaker_playing', true)
+
+            const currentItem = this._player.getCurrentlyPlaying()
+            switch (this._player.getState()) {
+                case 'playing_movie':
+                    this.setCapabilityValue('speaker_track', currentItem.toString())
+                    this.setImageByUrl(currentItem.getArtworkUrl())
+                    break
+                case 'playing_episode':
+                    this.setCapabilityValue('speaker_artist', currentItem.getFullEpisodeName())
+                    this.setCapabilityValue('speaker_track', currentItem.showTitle)
+                    this.setImageByUrl(currentItem.artUrl)
+                    break
+                case 'playing_music':
+                    this.setCapabilityValue('speaker_artist', currentItem.artist)
+                    this.setCapabilityValue('speaker_track', currentItem.title)
+                    this.setImageByUrl(currentItem.getArtworkUrl())
+            }
+        }
 
         this._library = new Library(this._kodi)
         this._library.on('audio_scan_finished', () => { this._onAudioScanFinished() })
@@ -444,6 +467,10 @@ class KodiDevice extends Homey.Device {
         let driver = this.getDriver()
         driver._flowTriggerKodiSongStart
             .trigger(this, song.getParamFlow(), null)
+
+        this.setCapabilityValue('speaker_artist', song.artist)
+        this.setCapabilityValue('speaker_track', song.title)
+        this.setImageByUrl(song.getArtworkUrl())
     }
 
     _onShutdown() {

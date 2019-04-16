@@ -630,7 +630,7 @@
     ],
     "conditions": [
       {
-        "id": "is_playing",
+        "id": "is_playing_something",
         "title": {
           "de": "Kodi spielt ab...",
           "en": "Kodi is playing...",
@@ -796,6 +796,7 @@
           "en": "Next",
           "nl": "Volgende"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {
@@ -812,6 +813,7 @@
           "en": "Previous",
           "nl": "Vorige"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {
@@ -828,6 +830,7 @@
           "en": "Set the volume of Kodi",
           "nl": "Stel het volume van Kodi in"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {
@@ -854,6 +857,7 @@
           "en": "Pause / resume playback on Kodi",
           "nl": "Pauzeer / hervat Kodi"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {
@@ -934,6 +938,7 @@
           "en": "Mute Kodi",
           "nl": "Zet Kodi op mute"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {
@@ -950,6 +955,7 @@
           "en": "Unmute Kodi",
           "nl": "Zet Kodi op luid (unmute)"
         },
+        "deprecated": true,
         "fluidArgs": true,
         "args": [
           {

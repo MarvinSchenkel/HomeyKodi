@@ -49,7 +49,7 @@ class KodiDriver extends Homey.Driver {
 
     this._flowTriggerKodiWake = new Homey.FlowCardTriggerDevice('kodi_wake')
       .register()
-    
+
     this._flowTriggerKodiScreensaverOn = new Homey.FlowCardTriggerDevice('kodi_ss_on')
       .register()
 
@@ -63,9 +63,9 @@ class KodiDriver extends Homey.Driver {
       .register()
 
     // Register flow conditions
-    new Homey.FlowCardCondition('is_playing')
+    new Homey.FlowCardCondition('is_playing_something')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return Promise.resolve(device.isPlaying(args.playing_item))
       })
@@ -73,126 +73,126 @@ class KodiDriver extends Homey.Driver {
     // Register flow actions
     new Homey.FlowCardAction('play_movie_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.playMovie(args.movie_title)
       })
 
     new Homey.FlowCardAction('play_latest_episode_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.playLatestUnwatchedEpisode(args.series_title)
-      })    
+      })
 
     new Homey.FlowCardAction('start_addon_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.startAddon(args.addon_name)
-      })    
-      
+      })
+
     new Homey.FlowCardAction('play_music_by_artist')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.playMusic('ARTIST', args.artist)
       })
 
     new Homey.FlowCardAction('next_track')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.nextOrPrevious('next')
       })
 
     new Homey.FlowCardAction('previous_track')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.nextOrPrevious('previous')
       })
 
     new Homey.FlowCardAction('set_volume')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setVolume(args.volume)
       })
 
     new Homey.FlowCardAction('pause_resume_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.pauseResume()
       })
 
     new Homey.FlowCardAction('stop_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.stop()
       })
-    
+
     new Homey.FlowCardAction('hibernate_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.hibernate()
       })
 
     new Homey.FlowCardAction('reboot_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.reboot()
       })
 
     new Homey.FlowCardAction('shutdown_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.shutdown()
       })
 
     new Homey.FlowCardAction('mute_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setMute(true)
       })
 
     new Homey.FlowCardAction('unmute_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setMute(false)
       })
 
     new Homey.FlowCardAction('party_mode_kodi')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setPartyMode()
       })
 
     new Homey.FlowCardAction('subtitle_on')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setSubtitle(true)
       })
 
     new Homey.FlowCardAction('subtitle_off')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.setSubtitle(false)
       })
 
     new Homey.FlowCardAction('send_notification')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         let message = args.message
         return device.sendNotification(message)
@@ -200,27 +200,27 @@ class KodiDriver extends Homey.Driver {
 
     new Homey.FlowCardAction('scan_video_library')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.scanVideoLibrary()
       })
 
     new Homey.FlowCardAction('scan_audio_library')
       .register()
-      .registerRunListener( (args, state) => {
+      .registerRunListener((args, state) => {
         let device = args.kodi
         return device.scanAudioLibrary()
       })
   }
 
   // Pairing functionality
-  onPairListDevices (data, callback) {
-    this.log('onPairListDevices')      
+  onPairListDevices(data, callback) {
+    this.log('onPairListDevices')
 
     let devices = []
 
     // Find local kodi devices.
-    bonjour.find({type: 'xbmc-jsonrpc', protocol: 'tcp'}, function(kodiDevice){
+    bonjour.find({ type: 'xbmc-jsonrpc', protocol: 'tcp' }, function (kodiDevice) {
       Homey.ManagerArp.getMAC(kodiDevice.addresses[0]) // Find mac address for device ID
         .then((mac) => {
           devices.push(
@@ -233,14 +233,14 @@ class KodiDriver extends Homey.Driver {
                 host: kodiDevice.addresses[0],
                 tcpport: kodiDevice.port
               }
-            }        
+            }
           )
         })
-    })    
-    
+    })
+
     // Call the frontend, use timeout to make sure devices are filled because bonjour searches asynchronously
-    setTimeout( () => {
-        callback(null, devices)
+    setTimeout(() => {
+      callback(null, devices)
     }, 5000)
   }
 }
