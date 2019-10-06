@@ -58,6 +58,7 @@ Adds Kodi support to your Homey!
 * Send a notification to Kodi
 * Scan video library
 * Scan audio library
+ * Play favourite (this action can also be used to play playlists)
 
 Flows are triggered whenever something happens on Kodi, whether this has been triggered by Homey or any other remote control.
 
