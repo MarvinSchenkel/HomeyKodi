@@ -6,6 +6,7 @@ const KodiWs = require('node-kodi-ws')
 const Player = require('../../lib/player.js')
 const Library = require('../../lib/library.js')
 const System = require('../../lib/system.js')
+const Favourite = require('../../lib/favourite.js')
 
 // Global config
 const RECONNECT_INTERVAL = 10000
@@ -229,6 +230,29 @@ class KodiDevice extends Homey.Device {
         } else {
             throw Error(Homey.__('talkback.kodi_offline'))
         }
+    }
+
+    /************************************
+        FAVOURITES
+    ************************************/
+    async getFavourites(searchQuery){
+        this.log('getFavourites(',searchQuery,')')
+        if (this.getAvailable()) {
+            return this._library.getFavourites(searchQuery)
+        } else {
+            throw Error(Homey.__('talkback.kodi_offline'))
+        }
+    }
+
+    async playFavourite(favourite) { 
+        this.log('playFavourite(' + favourite.title + ')')
+        // arg favourite is passed as json, reinitiate object
+        let favouriteObj = new Favourite(
+            favourite.id,
+            favourite.title,
+            favourite.artUrl
+        )
+        return this._player.playFavourite(favouriteObj)
     }
 
     /************************************

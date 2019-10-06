@@ -211,6 +211,18 @@ class KodiDriver extends Homey.Driver {
         let device = args.kodi
         return device.scanAudioLibrary()
       })
+    
+    new Homey.FlowCardAction('play_favourite')
+      .register()
+      .registerRunListener((args, state) => {
+        let device = args.kodi
+        return device.playFavourite(args.favourite.favourite)
+      })
+      .getArgument('favourite')
+      .registerAutocompleteListener((query, args) => { 
+        let device = args.kodi
+        return device.getFavourites(query)
+      })
   }
 
   // Pairing functionality

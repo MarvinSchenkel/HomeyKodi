@@ -10,9 +10,9 @@
     "en": "Control your Kodi device with Homey!",
     "nl": "Bestuur je Kodi apparaat met Homey!"
   },
-  "version": "2.5.1",
+  "version": "2.6.0",
   "brandColor": "#12B2E7",
-  "athomForumDiscussionId": 842,
+  "homeyCommunityTopicId": 1380,
   "sdk": 2,
   "compatibility": ">=2.0.0",
   "category": [
@@ -1062,6 +1062,31 @@
             "name": "kodi",
             "type": "device",
             "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          }
+        ]
+      },
+      {
+        "id": "play_favourite",
+        "title": {
+          "de": "Spiele einen Favoriten",
+          "en": "Play a Favourite",
+          "nl": "Speel een Favoriet af"
+        },
+        "fluidArgs": true,
+        "args": [
+          {
+            "name": "kodi",
+            "type": "device",
+            "filter": "driver_uri=homey:app:nl.marvinschenkel.kodi&driver_id=kodi|kodi_manual"
+          },
+          {
+            "type": "autocomplete",
+            "name": "favourite",
+            "placeholder": {
+              "en": "Search",
+              "nl": "Zoek",
+              "de": "Suche"
+            }
           }
         ]
       }
